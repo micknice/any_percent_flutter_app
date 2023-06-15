@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "446589843155",
+    "project_id": "any-percent-training--tracker",
+    "storage_bucket": "any-percent-training--tracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446589843155:android:09201b10075dfa5c1cc626",
+        "android_client_info": {
+          "package_name": "com.example.any_percent_training_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446589843155-3g81gkd7736306sk8k4m4m0gmbfspaiq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwxF2AtuyzXJixYWXGFl7qYanFV_3rGio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446589843155-3g81gkd7736306sk8k4m4m0gmbfspaiq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

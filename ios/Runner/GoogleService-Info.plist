@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>446589843155-18hhgqi4m3dpoff522sdjl0h5hoddqm1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.446589843155-18hhgqi4m3dpoff522sdjl0h5hoddqm1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCrM2RDoh6rRZGNp8JeumCjwWGszlx4Gb4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>446589843155</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.anyPercentTrainingTracker</string>
+	<key>PROJECT_ID</key>
+	<string>any-percent-training--tracker</string>
+	<key>STORAGE_BUCKET</key>
+	<string>any-percent-training--tracker.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:446589843155:ios:52522dcbcda4f6071cc626</string>
+</dict>
+</plist>
