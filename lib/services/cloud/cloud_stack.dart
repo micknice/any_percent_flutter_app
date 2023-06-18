@@ -7,17 +7,17 @@ class CloudStack {
   final String documentId;
   final String ownerUserId;
   final String lift;
-  final String sessionId;
+  final String date;
 
   const CloudStack({
     required this.documentId,
     required this.ownerUserId,
     required this.lift,
-    required this.sessionId,
+    required this.date,
   });
   CloudStack.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdField],
         lift = snapshot.data()[liftField] as String,
-        sessionId = snapshot.data()[sessionIdField] as String;
+        date = snapshot.data()[dateField] as String;
 }

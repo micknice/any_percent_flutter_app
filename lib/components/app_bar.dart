@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final VoidCallback onMenuPressed;
+  final String title;
 
   const CustomAppBar({
     super.key,
     required this.scaffoldKey,
     required this.onMenuPressed,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      title: Text(title),
       backgroundColor: Colors.transparent,
       bottomOpacity: 0.0,
       elevation: 0.0,
@@ -23,6 +26,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
           color: Colors.black87,
         ),
         onPressed: () {
+          print('APP BAR!!!!!');
+          print(scaffoldKey);
           onMenuPressed();
         },
       ),
@@ -40,6 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
       ],
     );
   }
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

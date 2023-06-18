@@ -8,7 +8,7 @@ import 'package:any_percent_training_tracker/services/cloud/cloud_storage_except
 class FirebaseCloudStorage {
   final notes = FirebaseFirestore.instance.collection('notes');
   final jobs = FirebaseFirestore.instance.collection('jobs');
- 
+
   final sessions = FirebaseFirestore.instance.collection('sessions');
   final stacks = FirebaseFirestore.instance.collection('stacks');
   final sets = FirebaseFirestore.instance.collection('sets');
@@ -40,7 +40,8 @@ class FirebaseCloudStorage {
     final allSessions = sessions
         .where(ownerUserIdField, isEqualTo: ownerUserId)
         .snapshots()
-        .map((event) => event.docs.map((doc) => CloudSession.fromSnapshot(doc)));
+        .map(
+            (event) => event.docs.map((doc) => CloudSession.fromSnapshot(doc)));
     return allSessions;
   }
 
@@ -56,6 +57,7 @@ class FirebaseCloudStorage {
       date: '',
     );
   }
+
   //stack
   Future<void> deleteStack({required String documentId}) async {
     try {
@@ -86,20 +88,24 @@ class FirebaseCloudStorage {
     return allStacks;
   }
 
-  Future<CloudStack> createNewStack({required String ownerUserId, required String sessionId}) async {
+  Future<CloudStack> createNewStack(
+      {required String ownerUserId, required String lift}) async {
+    final currentDateTime = DateTime.now();
+    final currentDate =
+        '${currentDateTime.year}-${currentDateTime.month}-${currentDateTime.day}';
     final document = await stacks.add({
       ownerUserIdField: ownerUserId,
-      liftField: '',
-      sessionIdField: sessionId,      
+      liftField: lift,
+      dateField: currentDate,
     });
     final fetchedStack = await document.get();
     return CloudStack(
-      documentId: fetchedStack.id,
-      ownerUserId: ownerUserId,
-      lift: '',
-      sessionId: sessionId      
-    );
+        documentId: fetchedStack.id,
+        ownerUserId: ownerUserIdField,
+        lift: liftField,
+        date: dateField);
   }
+
   // sets
   Future<void> deleteSet({required String documentId}) async {
     try {
@@ -132,14 +138,14 @@ class FirebaseCloudStorage {
     return allSets;
   }
 
-  Future<CloudSet> createNewSet({required String ownerUserId, required String stackId}) async {
+  Future<CloudSet> createNewSet(
+      {required String ownerUserId, required String stackId}) async {
     final document = await sets.add({
       ownerUserIdField: ownerUserId,
       stackIdField: stackId,
       liftField: '',
       repsField: '',
       weightField: ''
-            
     });
     final fetchedSet = await document.get();
     return CloudSet(
@@ -148,7 +154,7 @@ class FirebaseCloudStorage {
       lift: '',
       stackId: stackId,
       reps: '',
-      weight: '',      
+      weight: '',
     );
   }
 
