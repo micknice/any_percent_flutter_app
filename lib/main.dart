@@ -11,18 +11,7 @@ import 'package:any_percent_training_tracker/views/login_view.dart';
 import 'package:any_percent_training_tracker/views/register_view.dart';
 import 'package:any_percent_training_tracker/views/verify_email_view.dart';
 import 'package:flutter/material.dart';
-import 'package:any_percent_training_tracker/components/drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/components/button/gf_icon_button.dart';
-import 'components/app_bar.dart';
-import 'package:calendar_timeline/calendar_timeline.dart';
-import 'package:getwidget/components/floating_widget/gf_floating_widget.dart';
-import 'package:any_percent_training_tracker/constants/exercises.dart';
-import 'package:searchable_listview/searchable_listview.dart';
-
-import 'models/exercise_model.dart';
-import 'package:any_percent_training_tracker/components/basic_search_list.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

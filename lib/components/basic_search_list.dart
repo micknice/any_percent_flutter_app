@@ -1,16 +1,7 @@
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
 import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:any_percent_training_tracker/components/drawer.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/components/button/gf_icon_button.dart';
-import 'package:any_percent_training_tracker/components/app_bar.dart';
-import 'package:calendar_timeline/calendar_timeline.dart';
-import 'package:getwidget/components/floating_widget/gf_floating_widget.dart';
-import 'package:any_percent_training_tracker/constants/exercises.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-import 'package:any_percent_training_tracker/services/cloud/cloud_stack.dart';
-
 import 'package:any_percent_training_tracker/models/exercise_model.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 

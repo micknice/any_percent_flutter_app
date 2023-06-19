@@ -1,5 +1,4 @@
 import 'package:any_percent_training_tracker/constants/routes.dart';
-import 'package:any_percent_training_tracker/services/cloud/cloud_session.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,7 @@ class _StacksListViewState extends State<StacksListView> {
   late String _logDate;
   late Iterable<CloudStack> _sessionStacks;
   late final FirebaseCloudStorage _stacksService;
+  late DateTime _selectedDate;
 
   @override
   void initState() {
@@ -37,6 +37,11 @@ class _StacksListViewState extends State<StacksListView> {
     _logDate =
         '${currentDateTime.year}-${currentDateTime.month}-${currentDateTime.day}';
     super.initState();
+    _resetSelectedDate();
+  }
+
+  void _resetSelectedDate() {
+    _selectedDate = DateTime.now();
   }
 
   void deleteStack(String stackId) async {
@@ -50,12 +55,13 @@ class _StacksListViewState extends State<StacksListView> {
         Column(mainAxisSize: MainAxisSize.max, children: [
           CalendarTimeline(
             showYears: false,
-            initialDate: DateTime.now(),
+            initialDate: _selectedDate,
             firstDate: DateTime.utc(2023, 1, 1),
             lastDate: DateTime.utc(2050, 1, 1),
             onDateSelected: (date) {
               final currentDate = '${date.year}-${date.month}-${date.day}';
               setState(() {
+                _selectedDate = date;
                 _logDate = currentDate;
               });
             },
@@ -65,7 +71,6 @@ class _StacksListViewState extends State<StacksListView> {
             activeDayColor: Colors.white,
             activeBackgroundDayColor: Colors.redAccent[100],
             dotsColor: Color(0xFF333A47),
-            selectableDayPredicate: (date) => date.day != 23,
             locale: 'en_ISO',
           ),
           Expanded(
@@ -74,7 +79,6 @@ class _StacksListViewState extends State<StacksListView> {
               itemBuilder: (context, index) {
                 final stacksFilteredByDate =
                     widget.stacks.where((element) => element.date == _logDate);
-                
 
                 if (stacksFilteredByDate.isNotEmpty &&
                     index < stacksFilteredByDate.length) {
@@ -114,10 +118,10 @@ class _StacksListViewState extends State<StacksListView> {
               child: FloatingActionButton.small(
                 onPressed: () {
                   setState(() {
-                    final stacksFilteredByDate =
-                    widget.stacks.where((element) => element.date == _logDate);
-                  _sessionStacks = stacksFilteredByDate;
-                });
+                    final stacksFilteredByDate = widget.stacks
+                        .where((element) => element.date == _logDate);
+                    _sessionStacks = stacksFilteredByDate;
+                  });
                   Navigator.of(context).pushNamed(exerciseSearchViewRoute,
                       arguments: NewStackArgs(_logDate, _sessionStacks));
                 },

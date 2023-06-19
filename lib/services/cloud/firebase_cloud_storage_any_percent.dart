@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:any_percent_training_tracker/services/cloud/cloud_session.dart';
 import 'package:any_percent_training_tracker/services/cloud/cloud_stack.dart';
 import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/cloud_storage_constants.dart';

@@ -1,4 +1,3 @@
-import 'package:any_percent_training_tracker/components/app_bar.dart';
 import 'package:any_percent_training_tracker/components/basic_search_list.dart';
 import 'package:any_percent_training_tracker/components/drawer.dart';
 import 'package:any_percent_training_tracker/constants/exercises.dart';
