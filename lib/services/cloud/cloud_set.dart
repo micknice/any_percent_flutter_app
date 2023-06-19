@@ -7,23 +7,26 @@ class CloudSet {
   final String documentId;
   final String ownerUserId;
   final String lift;
-  final String reps;  
+  final String reps;
   final String stackId;
   final String weight;
+  final String setOrder;
 
   const CloudSet({
     required this.documentId,
     required this.ownerUserId,
     required this.lift,
-    required this.reps,    
+    required this.reps,
     required this.stackId,
     required this.weight,
+    required this.setOrder,
   });
   CloudSet.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdField],
         lift = snapshot.data()[liftField] as String,
-        reps = snapshot.data()[repsField] as String,       
+        reps = snapshot.data()[repsField] as String,
         stackId = snapshot.data()[stackIdField] as String,
-        weight = snapshot.data()[weightField] as String;
+        weight = snapshot.data()[weightField] as String,
+        setOrder = snapshot.data()[setOrderField] as String;
 }

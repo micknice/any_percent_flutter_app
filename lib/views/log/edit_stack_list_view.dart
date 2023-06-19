@@ -23,12 +23,12 @@ class EditStacksListView extends StatefulWidget {
 
 class _EditStacksListViewState extends State<EditStacksListView> {
   late String _logDate;
-  late Iterable<CloudSet> _stackSets;
+  late int _stackSets;
   late final FirebaseCloudStorage _setsService;
 
   @override
   void initState() {
-    _stackSets = widget.sets;
+    _stackSets = widget.sets.length;
     _setsService = FirebaseCloudStorage();
     super.initState();
   }
@@ -37,8 +37,17 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     await _setsService.deleteStack(documentId: stackId);
   }
 
-  void createSet(String userId, String stackId) async {
-    await _setsService.createNewSet(ownerUserId: userId, stackId: stackId);
+  Future<CloudSet> createSet(
+      String userId, String stackId, String setOrder) async {
+    final newSet = await _setsService.createNewSet(
+        ownerUserId: userId, stackId: stackId, setOrder: setOrder);
+    return newSet;
+  }
+
+  Future<CloudSet> createFirstSet(String userId, String stackId) async {
+    final newSet = await _setsService.createFirstSet(
+        ownerUserId: userId, stackId: stackId);
+    return newSet;
   }
 
   @override
@@ -47,8 +56,15 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     print(sets);
     if (sets.isEmpty) {
       print('SETS IS EMPTY!!!');
-      createSet(widget.userId, widget.stackId);
-    }
+      final newSet = createFirstSet(widget.userId, widget.stackId);
+      setState(() {
+        print('-stacksets preIncrement create firstSet');
+        print(_stackSets);
+        _stackSets += 1;
+        print('-stacksets postIncrement create firstSet');
+        print(_stackSets);
+      });
+    } else {}
 
     return Center(
       child: Stack(children: [
@@ -74,7 +90,24 @@ class _EditStacksListViewState extends State<EditStacksListView> {
           child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.small(
-                onPressed: () {},
+                onPressed: () {
+                  print('widget.sets.length at newSet preCreation');
+                  print(widget.sets.length);
+                  print('_stackSets at newSet preCreation');
+                  print(_stackSets);
+                  createSet(
+                    widget.userId,
+                    widget.stackId,
+                    _stackSets.toString(),
+                  );
+                  setState(() {
+                    _stackSets += 1;
+                  });
+                  print('widget.sets.length at newSet postCreation');
+                  print(widget.sets.length);
+                  print('_stackSets at newSet postCreation');
+                  print(_stackSets);
+                },
                 child: const Icon(Icons.add),
               )),
         )

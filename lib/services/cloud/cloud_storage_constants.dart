@@ -7,6 +7,7 @@ const stackIdField = 'stackId';
 const repsField = 'repsField';
 const setIdField = 'setIdField';
 const weightField = 'weight';
+const setOrderField = 'setOrder';
 
 const jobNameField = 'job';
 const roomNameField = 'room';

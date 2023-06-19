@@ -12,6 +12,11 @@ class FirebaseCloudStorage {
   Future<void> deleteStack({required String documentId}) async {
     try {
       await stacks.doc(documentId).delete();
+      final querySnapshot =
+          await sets.where(stackIdField, isEqualTo: documentId).get();
+      for (final document in querySnapshot.docs) {
+        await document.reference.delete();
+      }
     } catch (e) {
       throw CouldNotDeleteStackException();
     }
@@ -47,8 +52,11 @@ class FirebaseCloudStorage {
         .map((event) => event.docs.map((doc) => CloudStack.fromSnapshot(doc)));
     return allStacks;
   }
+
   Stream<Iterable<CloudStack>> allStacksByDateAndLift(
-      {required String ownerUserId, required String date, required String lift}) {
+      {required String ownerUserId,
+      required String date,
+      required String lift}) {
     final allStacks = stacks
         .where(ownerUserIdField, isEqualTo: ownerUserId)
         .where(dateField, isEqualTo: date)
@@ -63,7 +71,6 @@ class FirebaseCloudStorage {
     required String lift,
     required String date,
   }) async {
-       
     final document = await stacks.add({
       ownerUserIdField: ownerUserId,
       liftField: lift,
@@ -91,11 +98,13 @@ class FirebaseCloudStorage {
     required String documentId,
     required String reps,
     required String weight,
+    required String setOrder
   }) async {
     try {
       await sets.doc(documentId).update({
         repsField: reps,
         weightField: weight,
+        setOrderField: setOrder,
       });
     } catch (e) {
       throw CouldNotUpdateSetException();
@@ -109,7 +118,9 @@ class FirebaseCloudStorage {
         .map((event) => event.docs.map((doc) => CloudSet.fromSnapshot(doc)));
     return allSets;
   }
-  Stream<Iterable<CloudSet>> allSetsByStack({required String ownerUserId, required String stackId}) {
+
+  Stream<Iterable<CloudSet>> allSetsByStack(
+      {required String ownerUserId, required String stackId}) {
     final allSets = sets
         .where(ownerUserIdField, isEqualTo: ownerUserId)
         .where(stackIdField, isEqualTo: stackId)
@@ -119,13 +130,14 @@ class FirebaseCloudStorage {
   }
 
   Future<CloudSet> createNewSet(
-      {required String ownerUserId, required String stackId}) async {
+      {required String ownerUserId, required String stackId, required String setOrder}) async {
     final document = await sets.add({
       ownerUserIdField: ownerUserId,
       stackIdField: stackId,
       liftField: '',
       repsField: '',
       weightField: '',
+      setOrderField: setOrder,
     });
     final fetchedSet = await document.get();
     return CloudSet(
@@ -135,6 +147,28 @@ class FirebaseCloudStorage {
       stackId: stackId,
       reps: '',
       weight: '',
+      setOrder: '',
+    );
+  }
+  Future<CloudSet> createFirstSet(
+      {required String ownerUserId, required String stackId}) async {
+    final document = await sets.add({
+      ownerUserIdField: ownerUserId,
+      stackIdField: stackId,
+      liftField: '',
+      repsField: '',
+      weightField: '',
+      setOrderField: '0'
+    });
+    final fetchedSet = await document.get();
+    return CloudSet(
+      documentId: fetchedSet.id,
+      ownerUserId: ownerUserId,
+      lift: '',
+      stackId: stackId,
+      reps: '',
+      weight: '',
+      setOrder: setOrderField,
     );
   }
 
