@@ -109,6 +109,14 @@ class FirebaseCloudStorage {
         .map((event) => event.docs.map((doc) => CloudSet.fromSnapshot(doc)));
     return allSets;
   }
+  Stream<Iterable<CloudSet>> allSetsByStack({required String ownerUserId, required String stackId}) {
+    final allSets = sets
+        .where(ownerUserIdField, isEqualTo: ownerUserId)
+        .where(stackIdField, isEqualTo: stackId)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudSet.fromSnapshot(doc)));
+    return allSets;
+  }
 
   Future<CloudSet> createNewSet(
       {required String ownerUserId, required String stackId}) async {

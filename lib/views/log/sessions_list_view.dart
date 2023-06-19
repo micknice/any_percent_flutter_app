@@ -95,7 +95,10 @@ class _StacksListViewState extends State<StacksListView> {
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed(editStackViewRoute, arguments: EditStackArgs(stack));
+                                  },
                                   icon: const Icon(Icons.add)),
                               IconButton(
                                   onPressed: () {
@@ -138,4 +141,10 @@ class NewStackArgs {
   final Iterable<CloudStack> sessionStacks;
 
   NewStackArgs(this.date, this.sessionStacks);
+}
+
+class EditStackArgs {
+  final CloudStack stack;
+
+  EditStackArgs(this.stack);
 }
