@@ -1,4 +1,5 @@
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
+import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:any_percent_training_tracker/components/drawer.dart';
 import 'package:getwidget/components/button/gf_button.dart';
@@ -72,20 +73,24 @@ class ExerciseItem extends StatelessWidget {
       {Key? key, required this.exercise, required this.stacksService})
       : super(key: key);
 
-  void createStackWithSelectedExercise(String lift) async {
+  void createStackWithSelectedExercise(String lift, String date) async {
     final currentUser = AuthService.firebase().currentUser!;
     final userId = currentUser.id;
     final newStack =
-        await stacksService.createNewStack(ownerUserId: userId, lift: lift);
+        await stacksService.createNewStack(ownerUserId: userId, lift: lift, date: date);
   }
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as NewStackArgs;
+    print('AAAAAARRRRGGGGS!!!!');
+    print(args.date);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          createStackWithSelectedExercise(exercise.name);
+          
+          createStackWithSelectedExercise(exercise.name, args.date);
           Navigator.pop(context);
         },
         child: Container(

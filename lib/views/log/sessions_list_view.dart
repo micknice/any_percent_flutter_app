@@ -26,10 +26,12 @@ class StacksListView extends StatefulWidget {
 
 class _StacksListViewState extends State<StacksListView> {
   late String _logDate;
+  late Iterable<CloudStack> _sessionStacks;
   late final FirebaseCloudStorage _stacksService;
 
   @override
   void initState() {
+    _sessionStacks = widget.stacks;
     _stacksService = FirebaseCloudStorage();
     final currentDateTime = DateTime.now();
     _logDate =
@@ -40,8 +42,6 @@ class _StacksListViewState extends State<StacksListView> {
   void deleteStack(String stackId) async {
     await _stacksService.deleteStack(documentId: stackId);
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +74,10 @@ class _StacksListViewState extends State<StacksListView> {
               itemBuilder: (context, index) {
                 final stacksFilteredByDate =
                     widget.stacks.where((element) => element.date == _logDate);
-                print('stacksfiltered!!');
-                print(stacksFilteredByDate);
-                if (stacksFilteredByDate.isNotEmpty) {
+                
+
+                if (stacksFilteredByDate.isNotEmpty &&
+                    index < stacksFilteredByDate.length) {
                   final stack = stacksFilteredByDate.elementAt(index);
                   return ListTile(
                     onTap: () {
@@ -112,7 +113,13 @@ class _StacksListViewState extends State<StacksListView> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.small(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(exerciseSearchViewRoute);
+                  setState(() {
+                    final stacksFilteredByDate =
+                    widget.stacks.where((element) => element.date == _logDate);
+                  _sessionStacks = stacksFilteredByDate;
+                });
+                  Navigator.of(context).pushNamed(exerciseSearchViewRoute,
+                      arguments: NewStackArgs(_logDate, _sessionStacks));
                 },
                 child: const Icon(Icons.add),
               )),
@@ -120,4 +127,11 @@ class _StacksListViewState extends State<StacksListView> {
       ]),
     );
   }
+}
+
+class NewStackArgs {
+  final String date;
+  final Iterable<CloudStack> sessionStacks;
+
+  NewStackArgs(this.date, this.sessionStacks);
 }

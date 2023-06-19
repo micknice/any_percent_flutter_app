@@ -6,57 +6,8 @@ import 'package:any_percent_training_tracker/services/cloud/cloud_storage_consta
 import 'package:any_percent_training_tracker/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
-  final notes = FirebaseFirestore.instance.collection('notes');
-  final jobs = FirebaseFirestore.instance.collection('jobs');
-
-  final sessions = FirebaseFirestore.instance.collection('sessions');
   final stacks = FirebaseFirestore.instance.collection('stacks');
   final sets = FirebaseFirestore.instance.collection('sets');
-
-  //session
-
-  Future<void> deleteSession({required String documentId}) async {
-    try {
-      await sessions.doc(documentId).delete();
-    } catch (e) {
-      throw CouldNotDeleteSessionException();
-    }
-  }
-
-  Future<void> updateSession({
-    required String documentId,
-    required String date,
-  }) async {
-    try {
-      await sessions.doc(documentId).update({
-        dateField: date,
-      });
-    } catch (e) {
-      throw CouldNotUpdateSessionException();
-    }
-  }
-
-  Stream<Iterable<CloudSession>> allSessions({required String ownerUserId}) {
-    final allSessions = sessions
-        .where(ownerUserIdField, isEqualTo: ownerUserId)
-        .snapshots()
-        .map(
-            (event) => event.docs.map((doc) => CloudSession.fromSnapshot(doc)));
-    return allSessions;
-  }
-
-  Future<CloudSession> createNewSession({required String ownerUserId}) async {
-    final document = await jobs.add({
-      ownerUserIdField: ownerUserId,
-      dateField: DateTime.utc,
-    });
-    final fetchedSession = await document.get();
-    return CloudSession(
-      documentId: fetchedSession.id,
-      ownerUserId: ownerUserId,
-      date: '',
-    );
-  }
 
   //stack
   Future<void> deleteStack({required String documentId}) async {
@@ -88,16 +39,38 @@ class FirebaseCloudStorage {
     return allStacks;
   }
 
-  Future<CloudStack> createNewStack(
-      {required String ownerUserId, required String lift}) async {
-    final currentDateTime = DateTime.now();
-    final currentDate =
-        '${currentDateTime.year}-${currentDateTime.month}-${currentDateTime.day}';
+  Stream<Iterable<CloudStack>> allStacksByDate(
+      {required String ownerUserId, required String date}) {
+    final allStacks = stacks
+        .where(ownerUserIdField, isEqualTo: ownerUserId)
+        .where(dateField, isEqualTo: date)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudStack.fromSnapshot(doc)));
+    return allStacks;
+  }
+  Stream<Iterable<CloudStack>> allStacksByDateAndLift(
+      {required String ownerUserId, required String date, required String lift}) {
+    final allStacks = stacks
+        .where(ownerUserIdField, isEqualTo: ownerUserId)
+        .where(dateField, isEqualTo: date)
+        .where(liftField, isEqualTo: lift)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudStack.fromSnapshot(doc)));
+    return allStacks;
+  }
+
+  Future<CloudStack> createNewStack({
+    required String ownerUserId,
+    required String lift,
+    required String date,
+  }) async {
+       
     final document = await stacks.add({
       ownerUserIdField: ownerUserId,
       liftField: lift,
-      dateField: currentDate,
+      dateField: date,
     });
+
     final fetchedStack = await document.get();
     return CloudStack(
         documentId: fetchedStack.id,
@@ -145,7 +118,7 @@ class FirebaseCloudStorage {
       stackIdField: stackId,
       liftField: '',
       repsField: '',
-      weightField: ''
+      weightField: '',
     });
     final fetchedSet = await document.get();
     return CloudSet(
@@ -160,6 +133,7 @@ class FirebaseCloudStorage {
 
   static final FirebaseCloudStorage _shared =
       FirebaseCloudStorage._sharedInstance();
+
   FirebaseCloudStorage._sharedInstance();
   factory FirebaseCloudStorage() => _shared;
 }
