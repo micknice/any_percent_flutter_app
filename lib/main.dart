@@ -19,7 +19,7 @@ void main() {
   runApp(
     MaterialApp(
       title: 'Any Percent',
-      theme: ThemeData(primarySwatch: Colors.grey),
+      theme: ThemeData(primarySwatch: Colors.grey, useMaterial3:true),
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(FirebaseAuthProvider()),
         child: const HomePage(),

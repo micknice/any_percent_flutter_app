@@ -83,31 +83,40 @@ class _StacksListViewState extends State<StacksListView> {
                 if (stacksFilteredByDate.isNotEmpty &&
                     index < stacksFilteredByDate.length) {
                   final stack = stacksFilteredByDate.elementAt(index);
-                  return ListTile(
-                    onTap: () {
-                      widget.onTap(stack);
+                  return Dismissible(
+                    key: Key(stack.lift),
+                    onDismissed: (direction) {
+                      deleteStack(stack.documentId);
                     },
-                    title: Text(stack.lift),
-                    subtitle: Row(children: [
-                      const Text('sets'),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamed(editStackViewRoute, arguments: EditStackArgs(stack));
-                                  },
-                                  icon: const Icon(Icons.add)),
-                              IconButton(
-                                  onPressed: () {
-                                    deleteStack(stack.documentId);
-                                  },
-                                  icon: const Icon(Icons.delete))
-                            ],
-                          ))
-                    ]),
+                    background: Container(
+                      color: Color.fromARGB(144, 254, 209, 213),
+                    ),
+                    child: Card(
+                      child: ListTile(
+                        onTap: () {
+                          widget.onTap(stack);
+                        },
+                        title: Text(stack.lift),
+                        subtitle: Text('Sets: ${stack.setCount}'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  deleteStack(stack.documentId);
+                                },
+                                icon: const Icon(Icons.delete)),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(
+                                      editStackViewRoute,
+                                      arguments: EditStackArgs(stack));
+                                },
+                                icon: const Icon(Icons.edit)),
+                          ],
+                        ),
+                      ),
+                    ),
                   );
                 }
               },

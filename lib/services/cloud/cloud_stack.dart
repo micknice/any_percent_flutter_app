@@ -8,16 +8,19 @@ class CloudStack {
   final String ownerUserId;
   final String lift;
   final String date;
+  final String setCount;
 
   const CloudStack({
     required this.documentId,
     required this.ownerUserId,
     required this.lift,
     required this.date,
+    required this.setCount
   });
   CloudStack.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdField],
         lift = snapshot.data()[liftField] as String,
-        date = snapshot.data()[dateField] as String;
+        date = snapshot.data()[dateField] as String,
+        setCount = snapshot.data()[setCountField] as String;
 }

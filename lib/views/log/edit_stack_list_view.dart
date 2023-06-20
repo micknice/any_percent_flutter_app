@@ -50,20 +50,19 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     return newSet;
   }
 
+  void updateStack(String stackId, String setCount) async {
+    await _setsService.updateStack(documentId: stackId, setCount: setCount);
+  }
+
   @override
   Widget build(BuildContext context) {
     final sets = widget.sets;
-    print(sets);
     if (sets.isEmpty) {
-      print('SETS IS EMPTY!!!');
       final newSet = createFirstSet(widget.userId, widget.stackId);
       setState(() {
-        print('-stacksets preIncrement create firstSet');
-        print(_stackSets);
         _stackSets += 1;
-        print('-stacksets postIncrement create firstSet');
-        print(_stackSets);
       });
+      updateStack(widget.stackId, _stackSets.toString());
     } else {}
 
     return Center(
@@ -74,11 +73,13 @@ class _EditStacksListViewState extends State<EditStacksListView> {
               itemCount: widget.sets.length,
               itemBuilder: (context, index) {
                 if (sets.isNotEmpty && index < sets.length) {
-                  print('SETS IS NOT EMPTY!!!');
                   final set = sets.elementAt(index);
-                  return ListTile(
-                    onTap: () {},
-                    title: Text('item'),
+                  return Card(
+                    child: ListTile(
+                      onTap: () {},
+                      title: Text('Set ${index + 1}'),
+                      subtitle: Text('Reps: ${set.reps}'),
+                    ),
                   );
                 }
               },
@@ -91,10 +92,6 @@ class _EditStacksListViewState extends State<EditStacksListView> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.small(
                 onPressed: () {
-                  print('widget.sets.length at newSet preCreation');
-                  print(widget.sets.length);
-                  print('_stackSets at newSet preCreation');
-                  print(_stackSets);
                   createSet(
                     widget.userId,
                     widget.stackId,
@@ -103,10 +100,7 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                   setState(() {
                     _stackSets += 1;
                   });
-                  print('widget.sets.length at newSet postCreation');
-                  print(widget.sets.length);
-                  print('_stackSets at newSet postCreation');
-                  print(_stackSets);
+                  updateStack(widget.stackId, _stackSets.toString());
                 },
                 child: const Icon(Icons.add),
               )),

@@ -33,6 +33,7 @@ class _EditStackViewState extends State<EditStackView> {
 
   @override
   Widget build(BuildContext context) {
+    
     final args = ModalRoute.of(context)!.settings.arguments as EditStackArgs;
     final stackId = args.stack.documentId;
     // final documentId = args.documentId;

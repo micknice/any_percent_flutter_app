@@ -23,12 +23,12 @@ class FirebaseCloudStorage {
   }
 
   Future<void> updateStack({
-    required String documentId,
-    required String date,
+    required String documentId,    
+    required String setCount,
   }) async {
     try {
       await stacks.doc(documentId).update({
-        dateField: date,
+        setCountField: setCount,
       });
     } catch (e) {
       throw CouldNotUpdateStackException();
@@ -75,14 +75,17 @@ class FirebaseCloudStorage {
       ownerUserIdField: ownerUserId,
       liftField: lift,
       dateField: date,
+      setCountField: '',
     });
 
     final fetchedStack = await document.get();
     return CloudStack(
-        documentId: fetchedStack.id,
-        ownerUserId: ownerUserIdField,
-        lift: liftField,
-        date: dateField);
+      documentId: fetchedStack.id,
+      ownerUserId: ownerUserIdField,
+      lift: liftField,
+      date: dateField,
+      setCount: setCountField,
+    );
   }
 
   // sets
@@ -98,7 +101,7 @@ class FirebaseCloudStorage {
     required String documentId,
     required String reps,
     required String weight,
-    required String setOrder
+    required String setOrder,
   }) async {
     try {
       await sets.doc(documentId).update({
@@ -130,7 +133,9 @@ class FirebaseCloudStorage {
   }
 
   Future<CloudSet> createNewSet(
-      {required String ownerUserId, required String stackId, required String setOrder}) async {
+      {required String ownerUserId,
+      required String stackId,
+      required String setOrder}) async {
     final document = await sets.add({
       ownerUserIdField: ownerUserId,
       stackIdField: stackId,
@@ -150,6 +155,7 @@ class FirebaseCloudStorage {
       setOrder: '',
     );
   }
+
   Future<CloudSet> createFirstSet(
       {required String ownerUserId, required String stackId}) async {
     final document = await sets.add({
