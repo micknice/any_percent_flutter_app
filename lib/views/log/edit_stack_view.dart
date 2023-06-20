@@ -67,15 +67,8 @@ class _EditStackViewState extends State<EditStackView> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
               case ConnectionState.active:
-                if (snapshot.hasData) {
-                  print('SNAPSHOT HAS DATA!!');
+                if (snapshot.hasData) {                 
                   final allSetsByStack = snapshot.data as Iterable<CloudSet>;
-                  print('all sets by stack:');
-                  print(allSetsByStack);
-                  print('stackId:');
-                  print(stackId);
-                  print('userId:');
-                  print(userId);
                   return EditStacksListView(
                     sets: allSetsByStack,
                     stackId: stackId,

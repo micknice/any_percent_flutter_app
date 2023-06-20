@@ -1,9 +1,9 @@
 import 'package:any_percent_training_tracker/constants/routes.dart';
+import 'package:any_percent_training_tracker/services/cloud/cloud_stack.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/cloud/cloud_stack.dart';
 
 typedef StackCallback = void Function(CloudStack stack);
 
@@ -70,7 +70,7 @@ class _StacksListViewState extends State<StacksListView> {
             dayColor: Colors.teal[200],
             activeDayColor: Colors.white,
             activeBackgroundDayColor: Colors.redAccent[100],
-            dotsColor: Color(0xFF333A47),
+            dotsColor: const Color(0xFF333A47),
             locale: 'en_ISO',
           ),
           Expanded(
@@ -89,7 +89,7 @@ class _StacksListViewState extends State<StacksListView> {
                       deleteStack(stack.documentId);
                     },
                     background: Container(
-                      color: Color.fromARGB(144, 254, 209, 213),
+                      color: const Color.fromARGB(144, 254, 209, 213),
                     ),
                     child: Card(
                       child: ListTile(
@@ -148,12 +148,10 @@ class _StacksListViewState extends State<StacksListView> {
 class NewStackArgs {
   final String date;
   final Iterable<CloudStack> sessionStacks;
-
   NewStackArgs(this.date, this.sessionStacks);
 }
 
 class EditStackArgs {
   final CloudStack stack;
-
   EditStackArgs(this.stack);
 }

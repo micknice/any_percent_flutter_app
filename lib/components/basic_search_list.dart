@@ -10,9 +10,7 @@ class BasicSearchList extends StatefulWidget {
     super.key,
     required this.exercises,
   });
-
   final List<Exercise> exercises;
-
   @override
   State<BasicSearchList> createState() => _BasicSearchListState();
 }
@@ -67,20 +65,16 @@ class ExerciseItem extends StatelessWidget {
   void createStackWithSelectedExercise(String lift, String date) async {
     final currentUser = AuthService.firebase().currentUser!;
     final userId = currentUser.id;
-    final newStack =
         await stacksService.createNewStack(ownerUserId: userId, lift: lift, date: date);
   }
 
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as NewStackArgs;
-    print('AAAAAARRRRGGGGS!!!!');
-    print(args.date);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () {
-          
+        onTap: () {         
           createStackWithSelectedExercise(exercise.name, args.date);
           Navigator.pop(context);
         },

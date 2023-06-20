@@ -1,6 +1,5 @@
 import 'package:any_percent_training_tracker/components/app_bar.dart';
 import 'package:any_percent_training_tracker/components/drawer.dart';
-import 'package:any_percent_training_tracker/constants/exercises.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
@@ -19,7 +18,6 @@ class SessionsView extends StatefulWidget {
 class _SessionsViewState extends State<SessionsView> {
   late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late final FirebaseCloudStorage _stacksService;
-  late final CloudStack _stack;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
@@ -41,7 +39,6 @@ class _SessionsViewState extends State<SessionsView> {
     const tileDensity = -2.5;
     const divHeight = 1.8;
     const tileFontSize = 14.0;
-    final exercises = seedExercises;
 
     void openDrawer() {
       _scaffoldKey.currentState!.openDrawer();

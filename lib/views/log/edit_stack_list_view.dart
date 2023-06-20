@@ -1,8 +1,6 @@
-import 'package:any_percent_training_tracker/constants/routes.dart';
 import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:flutter/material.dart';
-import '../../services/cloud/cloud_stack.dart';
 
 typedef SetCallback = void Function(CloudSet set);
 
@@ -11,18 +9,18 @@ class EditStacksListView extends StatefulWidget {
   final String stackId;
   final String userId;
 
-  const EditStacksListView(
-      {super.key,
-      required this.sets,
-      required this.stackId,
-      required this.userId});
+  const EditStacksListView({
+    super.key,
+    required this.sets,
+    required this.stackId,
+    required this.userId,
+  });
 
   @override
   State<EditStacksListView> createState() => _EditStacksListViewState();
 }
 
 class _EditStacksListViewState extends State<EditStacksListView> {
-  late String _logDate;
   late int _stackSets;
   late final FirebaseCloudStorage _setsService;
 
@@ -78,7 +76,19 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                     child: ListTile(
                       onTap: () {},
                       title: Text('Set ${index + 1}'),
-                      subtitle: Text('Reps: ${set.reps}'),
+                      subtitle: const Text('Weight:   - Reps:'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.delete)),
+                          IconButton(
+                              onPressed: () {
+                                // Navigator.of(context).pushNamed()
+                              },
+                              icon: const Icon(Icons.edit)),
+                        ],
+                      ),
                     ),
                   );
                 }
