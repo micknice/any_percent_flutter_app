@@ -23,7 +23,7 @@ class FirebaseCloudStorage {
   }
 
   Future<void> updateStack({
-    required String documentId,    
+    required String documentId,
     required String setCount,
   }) async {
     try {
@@ -97,22 +97,37 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<void> updateSet({
-    required String documentId,
-    required String reps,
-    required String weight,
-    required String setOrder,
-  }) async {
-    try {
-      await sets.doc(documentId).update({
-        repsField: reps,
-        weightField: weight,
-        setOrderField: setOrder,
-      });
-    } catch (e) {
-      throw CouldNotUpdateSetException();
+  Future<void> updateSetOrder({
+  required String stackId,
+  required String deletedOrder,
+}) async {
+  try {
+    final QuerySnapshot snapshot = await sets
+        .where('stackId', isEqualTo: stackId)
+        .where('setOrder', isGreaterThan: deletedOrder)
+        .get();
+
+    final List<Future<void>> updateOperations = [];
+
+    for (final DocumentSnapshot doc in snapshot.docs) {
+      final dynamic data = doc.data();
+      final String? currentOrder = data?['setOrder'] as String?;
+      
+      if (currentOrder != null) {
+        final int newOrder = int.parse(currentOrder) - 1;
+        final String newOrderString = newOrder.toString();
+
+        updateOperations.add(
+          doc.reference.update({'setOrder': newOrderString}),
+        );
+      }
     }
+
+    await Future.wait(updateOperations);
+  } catch (e) {
+    throw CouldNotUpdateSetException();
   }
+}
 
   Stream<Iterable<CloudSet>> allSets({required String ownerUserId}) {
     final allSets = sets
@@ -164,7 +179,7 @@ class FirebaseCloudStorage {
       liftField: '',
       repsField: '',
       weightField: '',
-      setOrderField: '0'
+      setOrderField: '1'
     });
     final fetchedSet = await document.get();
     return CloudSet(

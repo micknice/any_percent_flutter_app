@@ -1,6 +1,7 @@
 import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:flutter/material.dart';
+import 'package:any_percent_training_tracker/constants/routes.dart';
 
 typedef SetCallback = void Function(CloudSet set);
 
@@ -31,8 +32,9 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     super.initState();
   }
 
-  void deleteSet(String stackId) async {
-    await _setsService.deleteStack(documentId: stackId);
+  void deleteSet(String setId) async {
+    print('deleteMethod invoked');
+    await _setsService.deleteSet(documentId: setId);
   }
 
   Future<CloudSet> createSet(
@@ -52,11 +54,18 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     await _setsService.updateStack(documentId: stackId, setCount: setCount);
   }
 
+  void updateSetOrderOnDeleteSet(String stackId, String deletedOrder) async {
+    await _setsService.updateSetOrder(
+        stackId: stackId, deletedOrder: deletedOrder);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final sets = widget.sets;
+    final setsList = widget.sets;
+    List<CloudSet> sets = List.from(setsList);
+    sets.sort((a, b) => int.parse(a.setOrder).compareTo(int.parse(b.setOrder)));
     if (sets.isEmpty) {
-      final newSet = createFirstSet(widget.userId, widget.stackId);
+      createFirstSet(widget.userId, widget.stackId);
       setState(() {
         _stackSets += 1;
       });
@@ -72,22 +81,56 @@ class _EditStacksListViewState extends State<EditStacksListView> {
               itemBuilder: (context, index) {
                 if (sets.isNotEmpty && index < sets.length) {
                   final set = sets.elementAt(index);
-                  return Card(
-                    child: ListTile(
-                      onTap: () {},
-                      title: Text('Set ${index + 1}'),
-                      subtitle: const Text('Weight:   - Reps:'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.delete)),
-                          IconButton(
-                              onPressed: () {
-                                // Navigator.of(context).pushNamed()
-                              },
-                              icon: const Icon(Icons.edit)),
-                        ],
+                  return Dismissible(
+                    key: Key(set.setOrder),
+                    onDismissed: (direction) {
+                      final deletedSetId = set.documentId;
+                      final deletedSetStackId = set.stackId;
+                      final deletedSetOrder = set.stackId;
+                      print('sets.length pre deletion');
+                      print(sets.length);
+                      deleteSet(deletedSetId);
+                      setState(() {
+                        _stackSets -= 1;
+                      });
+                      updateSetOrderOnDeleteSet(
+                          deletedSetStackId, deletedSetOrder);
+
+                      updateStack(widget.stackId, _stackSets.toString());
+                      print('sets.length post deletion');
+                      print(sets.length);
+                    },
+                    child: Card(
+                      child: ListTile(
+                        onTap: () {},
+                        title: Text('Set ${index + 1}'),
+                        subtitle:  Text(set.documentId),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  final deletedSetId = set.documentId;
+                                  final deletedSetStackId = set.stackId;
+                                  final deletedSetOrder = set.stackId;
+                                  deleteSet(deletedSetId);
+                                  setState(() {
+                                    _stackSets -= 1;
+                                  });
+                                  updateSetOrderOnDeleteSet(
+                                      deletedSetStackId, deletedSetOrder);
+                                  updateStack(
+                                      widget.stackId, _stackSets.toString());
+                                },
+                                icon: const Icon(Icons.delete)),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(editSetViewRoute);
+                                },
+                                icon: const Icon(Icons.edit)),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -102,14 +145,14 @@ class _EditStacksListViewState extends State<EditStacksListView> {
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.small(
                 onPressed: () {
+                  setState(() {
+                    _stackSets += 1;
+                  });
                   createSet(
                     widget.userId,
                     widget.stackId,
                     _stackSets.toString(),
                   );
-                  setState(() {
-                    _stackSets += 1;
-                  });
                   updateStack(widget.stackId, _stackSets.toString());
                 },
                 child: const Icon(Icons.add),

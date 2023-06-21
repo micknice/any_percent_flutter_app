@@ -33,13 +33,9 @@ class _EditStackViewState extends State<EditStackView> {
 
   @override
   Widget build(BuildContext context) {
-    
     final args = ModalRoute.of(context)!.settings.arguments as EditStackArgs;
     final stackId = args.stack.documentId;
-    // final documentId = args.documentId;
-    // final ownerUserId = args.ownerUserId;
-    // final lift = '';
-    // final sessionId = args.sessionId;
+    final lift = args.stack.lift;
 
     const tileDensity = -2.5;
     const divHeight = 1.8;
@@ -56,7 +52,7 @@ class _EditStackViewState extends State<EditStackView> {
         tileDensity: tileDensity,
       ),
       appBar: CustomAppBar(
-        title: 'Training Log',
+        title: lift,
         scaffoldKey: _scaffoldKey,
         onMenuPressed: openDrawer,
       ),
@@ -67,7 +63,7 @@ class _EditStackViewState extends State<EditStackView> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
               case ConnectionState.active:
-                if (snapshot.hasData) {                 
+                if (snapshot.hasData) {
                   final allSetsByStack = snapshot.data as Iterable<CloudSet>;
                   return EditStacksListView(
                     sets: allSetsByStack,

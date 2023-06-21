@@ -30,12 +30,6 @@ class _SessionsViewState extends State<SessionsView> {
 
   @override
   Widget build(BuildContext context) {
-    // final args = ModalRoute.of(context)!.settings.arguments as SessionArguments;
-    // final documentId = args.documentId;
-    // final ownerUserId = args.ownerUserId;
-    // final lift = '';
-    // final sessionId = args.sessionId;
-
     const tileDensity = -2.5;
     const divHeight = 1.8;
     const tileFontSize = 14.0;
