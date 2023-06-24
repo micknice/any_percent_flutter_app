@@ -53,10 +53,11 @@ class FirebaseCloudStorage {
     return allStacks;
   }
 
-  Stream<Iterable<CloudStack>> allStacksByDateAndLift(
-      {required String ownerUserId,
-      required String date,
-      required String lift}) {
+  Stream<Iterable<CloudStack>> allStacksByDateAndLift({
+    required String ownerUserId,
+    required String date,
+    required String lift,
+  }) {
     final allStacks = stacks
         .where(ownerUserIdField, isEqualTo: ownerUserId)
         .where(dateField, isEqualTo: date)
@@ -100,9 +101,9 @@ class FirebaseCloudStorage {
   Future<void> updateSet({
     required String setId,
     required String weight,
-    required String reps
+    required String reps,
   }) async {
-      try {
+    try {
       await sets.doc(setId).update({
         weightField: weight,
         repsField: reps,
@@ -167,7 +168,9 @@ class FirebaseCloudStorage {
     required String stackId,
     required String setOrder,
     required String lift,
+    required String date,
   }) async {
+    
     final document = await sets.add({
       ownerUserIdField: ownerUserId,
       stackIdField: stackId,
@@ -175,6 +178,7 @@ class FirebaseCloudStorage {
       repsField: '',
       weightField: '',
       setOrderField: setOrder,
+      dateField: date
     });
     final fetchedSet = await document.get();
     return CloudSet(
@@ -185,20 +189,25 @@ class FirebaseCloudStorage {
       reps: '',
       weight: '',
       setOrder: '',
+      date: '',
     );
   }
 
-  Future<CloudSet> createFirstSet(
-      {required String ownerUserId,
-      required String stackId,
-      required String lift}) async {
+  Future<CloudSet> createFirstSet({
+    required String ownerUserId,
+    required String stackId,
+    required String lift,
+    required String date,
+  }) async {
+    
     final document = await sets.add({
       ownerUserIdField: ownerUserId,
       stackIdField: stackId,
       liftField: lift,
       repsField: '',
       weightField: '',
-      setOrderField: '1'
+      setOrderField: '1',
+      dateField: date,
     });
     final fetchedSet = await document.get();
     return CloudSet(
@@ -209,6 +218,7 @@ class FirebaseCloudStorage {
       reps: '',
       weight: '',
       setOrder: setOrderField,
+      date: dateField,
     );
   }
 

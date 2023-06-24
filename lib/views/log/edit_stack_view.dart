@@ -35,6 +35,8 @@ class _EditStackViewState extends State<EditStackView> {
     final args = ModalRoute.of(context)!.settings.arguments as EditStackArgs;
     final stackId = args.stack.documentId;
     final lift = args.stack.lift;
+    final date = args.stack.date;
+
 
     const tileDensity = -2.5;
     const divHeight = 1.8;
@@ -45,7 +47,7 @@ class _EditStackViewState extends State<EditStackView> {
     }
 
     return Scaffold(
-      key: _scaffoldKey, // Set the key for Scaffold
+      key: _scaffoldKey, 
       drawer: const CustomDrawer(
         tileFontSize: tileFontSize,
         divHeight: divHeight,
@@ -72,6 +74,7 @@ class _EditStackViewState extends State<EditStackView> {
                     stackId: stackId,
                     userId: userId,
                     lift: lift,
+                    date: date,
                   );
                 } else {
                   return const CircularProgressIndicator();

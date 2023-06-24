@@ -70,6 +70,7 @@ class _StackListTileState extends State<StackListTile> {
       stackId: widgetSet.stackId,
       weight: widgetSet.weight,
       setOrder: widgetSet.setOrder,
+      date: widgetSet.date
     );
   }
 

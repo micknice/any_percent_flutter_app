@@ -1,7 +1,6 @@
 import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:flutter/material.dart';
-import 'package:any_percent_training_tracker/constants/routes.dart';
 import 'package:any_percent_training_tracker/components/stacks_list_tile.dart';
 
 typedef SetCallback = void Function(CloudSet set);
@@ -11,13 +10,15 @@ class EditStacksListView extends StatefulWidget {
   final String stackId;
   final String userId;
   final String lift;
+  final String date;
 
   const EditStacksListView(
       {super.key,
       required this.sets,
       required this.stackId,
       required this.userId,
-      required this.lift});
+      required this.lift,
+      required this.date});
 
   @override
   State<EditStacksListView> createState() => _EditStacksListViewState();
@@ -39,16 +40,29 @@ class _EditStacksListViewState extends State<EditStacksListView> {
   }
 
   Future<CloudSet> createSet(
-      String userId, String stackId, String setOrder, String lift) async {
+    String userId,
+    String stackId,
+    String setOrder,
+    String lift,
+    String date,
+  ) async {
     final newSet = await _setsService.createNewSet(
-        ownerUserId: userId, stackId: stackId, setOrder: setOrder, lift: lift);
+        ownerUserId: userId,
+        stackId: stackId,
+        setOrder: setOrder,
+        lift: lift,
+        date: date);
     return newSet;
   }
 
   Future<CloudSet> createFirstSet(
-      String userId, String stackId, String lift) async {
+    String userId,
+    String stackId,
+    String lift,
+    String date,
+  ) async {
     final newSet = await _setsService.createFirstSet(
-        ownerUserId: userId, stackId: stackId, lift: lift);
+        ownerUserId: userId, stackId: stackId, lift: lift, date: date);
     return newSet;
   }
 
@@ -79,7 +93,12 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     List<CloudSet> sets = List.from(setsList);
     sets.sort((a, b) => int.parse(a.setOrder).compareTo(int.parse(b.setOrder)));
     if (sets.isEmpty) {
-      createFirstSet(widget.userId, widget.stackId, widget.lift);
+      createFirstSet(
+        widget.userId,
+        widget.stackId,
+        widget.lift,
+        widget.date,
+      );
       setState(() {
         _stackSets += 1;
       });
@@ -117,6 +136,9 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                       onDeleteSet: onDeleteSet,
                     )),
                   );
+                } 
+                else {
+                  return const CircularProgressIndicator();
                 }
               },
             ),
@@ -136,6 +158,7 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                     widget.stackId,
                     _stackSets.toString(),
                     widget.lift,
+                    widget.date,
                   );
                   updateStack(widget.stackId, _stackSets.toString());
                 },

@@ -35,16 +35,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(2.0),
                 child: Center(
                     child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const Text(
                       'Any%',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 50,
+                        fontSize: 46,
                         fontWeight: FontWeight.bold,
                         letterSpacing: -4.0,
                       ),
@@ -73,7 +73,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       child: TextButton.icon(
                           onPressed: () {},
                           icon: const Text(
-                            'Sign in',
+                            'Log Out',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,

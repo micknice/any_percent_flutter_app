@@ -4,7 +4,6 @@ import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_stora
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 
-
 typedef StackCallback = void Function(CloudStack stack);
 
 class StacksListView extends StatefulWidget {
@@ -83,6 +82,7 @@ class _StacksListViewState extends State<StacksListView> {
                 if (stacksFilteredByDate.isNotEmpty &&
                     index < stacksFilteredByDate.length) {
                   final stack = stacksFilteredByDate.elementAt(index);
+                
                   return Dismissible(
                     key: Key(stack.lift),
                     onDismissed: (direction) {
@@ -108,6 +108,7 @@ class _StacksListViewState extends State<StacksListView> {
                                 icon: const Icon(Icons.delete)),
                             IconButton(
                                 onPressed: () {
+
                                   Navigator.of(context).pushNamed(
                                       editStackViewRoute,
                                       arguments: EditStackArgs(stack));
@@ -153,5 +154,6 @@ class NewStackArgs {
 
 class EditStackArgs {
   final CloudStack stack;
+
   EditStackArgs(this.stack);
 }
