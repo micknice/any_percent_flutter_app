@@ -1,5 +1,5 @@
+import 'package:any_percent_training_tracker/constants/routes.dart';
 import 'package:flutter/material.dart';
-
 
 class CustomDrawer extends StatefulWidget {
   final double tileFontSize;
@@ -19,8 +19,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   bool light = true;
-  
-  
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -153,7 +152,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: widget.tileFontSize),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed(dataViewRoute);
+          },
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -231,7 +232,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 7,
           child: Material(color: Colors.grey.shade200),
         ),
-        
         SizedBox(
           height: 7,
           child: Material(color: Colors.grey.shade200),

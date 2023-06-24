@@ -4,6 +4,7 @@ import 'package:any_percent_training_tracker/services/auth/bloc/auth_bloc.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_event.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_state.dart';
 import 'package:any_percent_training_tracker/services/auth/firebase_auth_provider.dart';
+import 'package:any_percent_training_tracker/views/data/data_view.dart';
 import 'package:any_percent_training_tracker/views/forgot_password_view.dart';
 import 'package:any_percent_training_tracker/views/log/edit_set_view.dart';
 import 'package:any_percent_training_tracker/views/log/edit_stack_view.dart';
@@ -29,6 +30,7 @@ void main() {
         exerciseSearchViewRoute: (context) => const ExerciseSearchView(),
         editStackViewRoute: (context) => const EditStackView(),
         editSetViewRoute:(context) => const EditSetView(),
+        dataViewRoute:(context) => const DataView(),
       },
     ),
   );

@@ -162,6 +162,15 @@ class FirebaseCloudStorage {
         .map((event) => event.docs.map((doc) => CloudSet.fromSnapshot(doc)));
     return allSets;
   }
+  Stream<Iterable<CloudSet>> allSetsByLift(
+      {required String ownerUserId, required String lift}) {
+    final allSets = sets
+        .where(ownerUserIdField, isEqualTo: ownerUserId)
+        .where(liftField, isEqualTo: lift)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudSet.fromSnapshot(doc)));
+    return allSets;
+  }
 
   Future<CloudSet> createNewSet({
     required String ownerUserId,
