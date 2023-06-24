@@ -40,20 +40,17 @@ class _DataViewState extends State<DataView> {
                   final List<CloudSet> setsByLift = allSets
                       .where((element) => element.lift == _lift)
                       .toList();
-
                   setsByLift.sort((a, b) => a.date.compareTo(b.date));
-
                   final maxWeightOnDate = getMaxWeightOnDate(setsByLift);
-                  print('maxweight[0].x');
-                  print(maxWeightOnDate[0].x);
-
                   final length = maxWeightOnDate.length;
                   final double minX = maxWeightOnDate[0].x;
                   final double maxX = maxWeightOnDate[length - 1].x;
                   const double minY = 0;
                   const double maxY = 300;
+                  List<Color> gradientColors = [Colors.blueGrey, Colors.red];
                   return Column(
                     children: [
+                      
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -75,6 +72,10 @@ class _DataViewState extends State<DataView> {
                                       SideTitles(showTitles: true, interval: 1),
                                 ),
                               ),
+                              borderData: FlBorderData(
+                                show: true,
+                                border: Border.all(color: Colors.cyan),
+                              ),
                               minX: minX,
                               maxX: maxX,
                               minY: minY,
@@ -82,6 +83,8 @@ class _DataViewState extends State<DataView> {
                               lineBarsData: [
                                 LineChartBarData(
                                   spots: [...maxWeightOnDate],
+                                  isCurved: false,
+                                  belowBarData: BarAreaData(show: true, gradient: LinearGradient(colors: gradientColors))
                                 )
                               ])),
                         ),
