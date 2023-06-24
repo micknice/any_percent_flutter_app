@@ -2,6 +2,7 @@ import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:flutter/material.dart';
 import 'package:any_percent_training_tracker/constants/routes.dart';
+import 'package:any_percent_training_tracker/components/stacks_list_tile.dart';
 
 typedef SetCallback = void Function(CloudSet set);
 
@@ -9,13 +10,14 @@ class EditStacksListView extends StatefulWidget {
   final Iterable<CloudSet> sets;
   final String stackId;
   final String userId;
+  final String lift;
 
-  const EditStacksListView({
-    super.key,
-    required this.sets,
-    required this.stackId,
-    required this.userId,
-  });
+  const EditStacksListView(
+      {super.key,
+      required this.sets,
+      required this.stackId,
+      required this.userId,
+      required this.lift});
 
   @override
   State<EditStacksListView> createState() => _EditStacksListViewState();
@@ -33,20 +35,20 @@ class _EditStacksListViewState extends State<EditStacksListView> {
   }
 
   void deleteSet(String setId) async {
-    print('deleteMethod invoked');
     await _setsService.deleteSet(documentId: setId);
   }
 
   Future<CloudSet> createSet(
-      String userId, String stackId, String setOrder) async {
+      String userId, String stackId, String setOrder, String lift) async {
     final newSet = await _setsService.createNewSet(
-        ownerUserId: userId, stackId: stackId, setOrder: setOrder);
+        ownerUserId: userId, stackId: stackId, setOrder: setOrder, lift: lift);
     return newSet;
   }
 
-  Future<CloudSet> createFirstSet(String userId, String stackId) async {
+  Future<CloudSet> createFirstSet(
+      String userId, String stackId, String lift) async {
     final newSet = await _setsService.createFirstSet(
-        ownerUserId: userId, stackId: stackId);
+        ownerUserId: userId, stackId: stackId, lift: lift);
     return newSet;
   }
 
@@ -59,13 +61,25 @@ class _EditStacksListViewState extends State<EditStacksListView> {
         stackId: stackId, deletedOrder: deletedOrder);
   }
 
+  void onDeleteSet(CloudSet set, String stackId, int stacksets) async {
+    final deletedSetId = set.documentId;
+    final deletedSetStackId = set.stackId;
+    final deletedSetOrder = set.setOrder;
+    deleteSet(deletedSetId);
+    setState(() {
+      _stackSets -= 1;
+    });
+    updateSetOrderOnDeleteSet(deletedSetStackId, deletedSetOrder);
+    updateStack(widget.stackId, _stackSets.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     final setsList = widget.sets;
     List<CloudSet> sets = List.from(setsList);
     sets.sort((a, b) => int.parse(a.setOrder).compareTo(int.parse(b.setOrder)));
     if (sets.isEmpty) {
-      createFirstSet(widget.userId, widget.stackId);
+      createFirstSet(widget.userId, widget.stackId, widget.lift);
       setState(() {
         _stackSets += 1;
       });
@@ -86,53 +100,22 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                     onDismissed: (direction) {
                       final deletedSetId = set.documentId;
                       final deletedSetStackId = set.stackId;
-                      final deletedSetOrder = set.stackId;
-                      print('sets.length pre deletion');
-                      print(sets.length);
+                      final deletedSetOrder = set.setOrder;
                       deleteSet(deletedSetId);
                       setState(() {
                         _stackSets -= 1;
                       });
                       updateSetOrderOnDeleteSet(
                           deletedSetStackId, deletedSetOrder);
-
                       updateStack(widget.stackId, _stackSets.toString());
-                      print('sets.length post deletion');
-                      print(sets.length);
                     },
                     child: Card(
-                      child: ListTile(
-                        onTap: () {},
-                        title: Text('Set ${index + 1}'),
-                        subtitle:  Text(set.documentId),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  final deletedSetId = set.documentId;
-                                  final deletedSetStackId = set.stackId;
-                                  final deletedSetOrder = set.stackId;
-                                  deleteSet(deletedSetId);
-                                  setState(() {
-                                    _stackSets -= 1;
-                                  });
-                                  updateSetOrderOnDeleteSet(
-                                      deletedSetStackId, deletedSetOrder);
-                                  updateStack(
-                                      widget.stackId, _stackSets.toString());
-                                },
-                                icon: const Icon(Icons.delete)),
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed(editSetViewRoute);
-                                },
-                                icon: const Icon(Icons.edit)),
-                          ],
-                        ),
-                      ),
-                    ),
+                        child: StackListTile(
+                      setsService: _setsService,
+                      set: set,
+                      currentStackSets: _stackSets,
+                      onDeleteSet: onDeleteSet,
+                    )),
                   );
                 }
               },
@@ -152,6 +135,7 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                     widget.userId,
                     widget.stackId,
                     _stackSets.toString(),
+                    widget.lift,
                   );
                   updateStack(widget.stackId, _stackSets.toString());
                 },
