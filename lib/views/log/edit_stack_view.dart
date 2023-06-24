@@ -5,7 +5,6 @@ import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:any_percent_training_tracker/views/log/edit_stack_list_view.dart';
 import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
-// import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
 import 'package:flutter/material.dart';
 
 class EditStackView extends StatefulWidget {
@@ -18,7 +17,7 @@ class EditStackView extends StatefulWidget {
 }
 
 class _EditStackViewState extends State<EditStackView> {
-  late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late GlobalKey<ScaffoldState> _scaffoldKey;
   late final FirebaseCloudStorage _setsService;
   late final CloudSet _set;
   String get userId => AuthService.firebase().currentUser!.id;
@@ -46,6 +45,7 @@ class _EditStackViewState extends State<EditStackView> {
     }
 
     return Scaffold(
+      key: _scaffoldKey, // Set the key for Scaffold
       drawer: const CustomDrawer(
         tileFontSize: tileFontSize,
         divHeight: divHeight,

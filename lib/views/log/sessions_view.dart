@@ -7,25 +7,21 @@ import 'package:any_percent_training_tracker/services/cloud/cloud_stack.dart';
 import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
 
 class SessionsView extends StatefulWidget {
-  const SessionsView({
-    Key? key,
-  }) : super(key: key);
+  const SessionsView({Key? key}) : super(key: key);
 
   @override
   State<SessionsView> createState() => _SessionsViewState();
 }
 
 class _SessionsViewState extends State<SessionsView> {
-  late GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late final FirebaseCloudStorage _stacksService;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _stacksService = FirebaseCloudStorage();
-    _scaffoldKey = GlobalKey<ScaffoldState>();
-
     super.initState();
+    _stacksService = FirebaseCloudStorage();
   }
 
   @override
@@ -39,6 +35,7 @@ class _SessionsViewState extends State<SessionsView> {
     }
 
     return Scaffold(
+      key: _scaffoldKey, // Assign the key to the Scaffold widget
       drawer: const CustomDrawer(
         tileFontSize: tileFontSize,
         divHeight: divHeight,
@@ -47,9 +44,12 @@ class _SessionsViewState extends State<SessionsView> {
       appBar: CustomAppBar(
         title: 'Training Log',
         scaffoldKey: _scaffoldKey,
-        onMenuPressed: openDrawer,
+        onMenuPressed: () {
+          openDrawer();
+        },
       ),
-      body: StreamBuilder(
+      body: Builder(
+        builder: (context) => StreamBuilder(
           stream: _stacksService.allStacks(ownerUserId: userId),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
@@ -60,8 +60,7 @@ class _SessionsViewState extends State<SessionsView> {
                   return StacksListView(
                     stacks: allStacks,
                     onDeleteStack: (stack) async {
-                      await _stacksService.deleteStack(
-                          documentId: stack.documentId);
+                      await _stacksService.deleteStack(documentId: stack.documentId);
                     },
                     onTap: (stack) {},
                   );
@@ -71,7 +70,10 @@ class _SessionsViewState extends State<SessionsView> {
               default:
                 return const CircularProgressIndicator();
             }
-          }),
+          },
+        ),
+      ),
     );
   }
 }
+
