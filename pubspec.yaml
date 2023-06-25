@@ -25,6 +25,7 @@ dependencies:
   firebase_auth: ^4.4.2
   cloud_firestore: ^4.5.3
   text_scroll: ^0.2.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

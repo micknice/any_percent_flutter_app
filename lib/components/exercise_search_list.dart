@@ -5,17 +5,17 @@ import 'package:searchable_listview/searchable_listview.dart';
 import 'package:any_percent_training_tracker/models/exercise_model.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 
-class BasicSearchList extends StatefulWidget {
-  const BasicSearchList({
+class ExerciseSearchList extends StatefulWidget {
+  const ExerciseSearchList({
     super.key,
     required this.exercises,
   });
   final List<Exercise> exercises;
   @override
-  State<BasicSearchList> createState() => _BasicSearchListState();
+  State<ExerciseSearchList> createState() => _ExerciseSearchListState();
 }
 
-class _BasicSearchListState extends State<BasicSearchList> {
+class _ExerciseSearchListState extends State<ExerciseSearchList> {
   late final FirebaseCloudStorage _stacksService;
 
   @override
@@ -65,7 +65,8 @@ class ExerciseItem extends StatelessWidget {
   void createStackWithSelectedExercise(String lift, String date) async {
     final currentUser = AuthService.firebase().currentUser!;
     final userId = currentUser.id;
-        await stacksService.createNewStack(ownerUserId: userId, lift: lift, date: date);
+    await stacksService.createNewStack(
+        ownerUserId: userId, lift: lift, date: date);
   }
 
   @override
@@ -74,7 +75,7 @@ class ExerciseItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () {         
+        onTap: () {
           createStackWithSelectedExercise(exercise.name, args.date);
           Navigator.pop(context);
         },

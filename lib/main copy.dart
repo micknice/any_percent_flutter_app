@@ -1,5 +1,4 @@
 import 'package:any_percent_training_tracker/constants/routes.dart';
-import 'package:any_percent_training_tracker/data_view_providers.dart';
 import 'package:any_percent_training_tracker/helpers/loading/loading_screen.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_bloc.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_event.dart';
@@ -17,33 +16,29 @@ import 'package:any_percent_training_tracker/views/register_view.dart';
 import 'package:any_percent_training_tracker/views/verify_email_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => ExerciseProvider()),
-    ],
-    child: MaterialApp(
+  runApp(
+    MaterialApp(
       title: 'Any Percent',
-      theme: ThemeData(primarySwatch: Colors.grey, useMaterial3: true),
+      theme: ThemeData(primarySwatch: Colors.grey, useMaterial3:true),
       home: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => AuthBloc(FirebaseAuthProvider())),
+        BlocProvider(create:(context) => AuthBloc(FirebaseAuthProvider())),
+
         ],
         child: const HomePage(),
       ),
       routes: {
         exerciseSearchViewRoute: (context) => const ExerciseSearchView(),
         editStackViewRoute: (context) => const EditStackView(),
-        editSetViewRoute: (context) => const EditSetView(),
-        dataViewRoute: (context) => const DataView(),
-        exerciseSearchViewDataRoute: (context) =>
-            const ExerciseSearchViewData(),
+        editSetViewRoute:(context) => const EditSetView(),
+        dataViewRoute:(context) => const DataView(),
+        exerciseSearchViewDataRoute:(context) => const ExerciseSearchViewData(),
       },
     ),
-  ));
+  );
 }
 
 class HomePage extends StatefulWidget {
