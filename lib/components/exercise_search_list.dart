@@ -73,7 +73,7 @@ class ExerciseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as NewStackArgs;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom:8.0),
       child: GestureDetector(
         onTap: () {
           createStackWithSelectedExercise(exercise.name, args.date);
@@ -81,9 +81,9 @@ class ExerciseItem extends StatelessWidget {
         },
         child: Container(
           height: 60,
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(10),
+          decoration:  const BoxDecoration(
+            color:  Color.fromRGBO(238, 238, 238, 1),
+            borderRadius: BorderRadius.zero,
           ),
           child: Row(
             children: [

@@ -105,9 +105,8 @@ class _StackListTileState extends State<StackListTile> {
             _setupTextControllerListener();
             return Container(
               height: 77,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(10),
+              decoration: const BoxDecoration(
+                color:   Color.fromRGBO(238, 238, 238, 1),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

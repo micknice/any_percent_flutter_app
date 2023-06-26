@@ -37,8 +37,6 @@ List<FlSpot> getMaxWeightOnDate(List<CloudSet> sets) {
     }
   }
   print('POST MAX LOOP');
-  
-  
 
   return maxWeights.entries
       .map((entry) => FlSpot(entry.key, entry.value))
@@ -51,9 +49,7 @@ List<String> getUniqueReps(List<CloudSet> cloudSets) {
   for (var cloudSet in cloudSets) {
     uniqueReps.add(cloudSet.reps);
   }
-
-  return uniqueReps.toList();
+  List<String> uniqueRepsList = ['All'];
+  uniqueRepsList.addAll(uniqueReps);
+  return uniqueRepsList;
 }
-
-
-

@@ -76,14 +76,8 @@ class _DataViewState extends State<DataView> {
                 case ConnectionState.active:
                   if (snapshot.hasData) {
                     final allSets = snapshot.data as Iterable<CloudSet>;
-
-                    // final List<CloudSet> setsByLift = allSets
-                    //     .where((element) => element.lift == provider.exercise)
-                    //     .toList();
-                    // final filteredSets = _filteredSets;
                     final filteredSets = getFilteredSets(
                         allSets, provider.exercise, repsProvider.reps);
-                    // filteredSets.sort((a, b) => a.date.compareTo(b.date));
                     final maxWeightOnDate = getMaxWeightOnDate(filteredSets);
                     final length = maxWeightOnDate.length;
                     final validRepRangeList = getUniqueReps(filteredSets);

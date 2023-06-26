@@ -82,17 +82,23 @@ class _StacksListViewState extends State<StacksListView> {
                 if (stacksFilteredByDate.isNotEmpty &&
                     index < stacksFilteredByDate.length) {
                   final stack = stacksFilteredByDate.elementAt(index);
-                
+
                   return Dismissible(
                     key: Key(stack.lift),
                     onDismissed: (direction) {
                       deleteStack(stack.documentId);
                     },
                     background: Container(
-                      color: const Color.fromARGB(144, 254, 209, 213),
+                      // decoration: const BoxDecoration(
+                      //   color:  Color.fromRGBO(238, 238, 238, 1),
+                      // ),
                     ),
                     child: Card(
+                      shape: const ContinuousRectangleBorder(),
                       child: ListTile(
+                        tileColor: const Color.fromRGBO(238, 238, 238, 1),
+                        shape: const ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.zero),
                         onTap: () {
                           widget.onTap(stack);
                         },
@@ -108,7 +114,6 @@ class _StacksListViewState extends State<StacksListView> {
                                 icon: const Icon(Icons.delete)),
                             IconButton(
                                 onPressed: () {
-
                                   Navigator.of(context).pushNamed(
                                       editStackViewRoute,
                                       arguments: EditStackArgs(stack));
