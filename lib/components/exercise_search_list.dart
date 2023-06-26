@@ -1,5 +1,5 @@
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
-import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
+import 'package:any_percent_training_tracker/views/log_view/sessions_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 import 'package:any_percent_training_tracker/models/exercise_model.dart';

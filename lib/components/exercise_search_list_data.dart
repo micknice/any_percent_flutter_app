@@ -1,11 +1,8 @@
-import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
-import 'package:any_percent_training_tracker/exercise_provider_data.dart';
-import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
+import 'package:any_percent_training_tracker/providers/exercise_provider_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 import 'package:any_percent_training_tracker/models/exercise_model.dart';
-import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 
 typedef ExerciseCallback = void Function();
 
@@ -72,9 +69,7 @@ class ExerciseItemData extends StatelessWidget {
           builder: (context, provider, child) {
             return GestureDetector(
               onTap: () {
-                print('!!!!!!!');
                 provider.updateExercise(exercise.name);
-                print(provider.exercise);
                 Navigator.pop(context);
               },
               child: Container(

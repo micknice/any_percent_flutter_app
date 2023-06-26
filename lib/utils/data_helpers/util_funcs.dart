@@ -45,10 +45,15 @@ List<FlSpot> getMaxWeightOnDate(List<CloudSet> sets) {
       .toList();
 }
 
-//     class F1Spot {
-//   final double x; // Date
-//   final double y; // Weight
+List<String> getUniqueReps(List<CloudSet> cloudSets) {
+  Set<String> uniqueReps = {};
 
-//   F1Spot(this.x, this.y);
-// }
+  for (var cloudSet in cloudSets) {
+    uniqueReps.add(cloudSet.reps);
+  }
+
+  return uniqueReps.toList();
+}
+
+
 

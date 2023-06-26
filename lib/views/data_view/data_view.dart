@@ -1,8 +1,9 @@
 import 'package:any_percent_training_tracker/constants/routes.dart';
+import 'package:any_percent_training_tracker/providers/reps_provider_data.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:any_percent_training_tracker/utils/data_helpers/util_funcs.dart';
-import 'package:any_percent_training_tracker/exercise_provider_data.dart';
+import 'package:any_percent_training_tracker/providers/exercise_provider_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -23,10 +24,14 @@ class _DataViewState extends State<DataView> {
   String get userId => AuthService.firebase().currentUser!.id;
   final String _lift = 'Barbell Bench Press';
   late final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // late List<CloudSet> _filteredSets;
+  // late Iterable<CloudSet> _allSets;
 
   @override
   void initState() {
     _setsService = FirebaseCloudStorage();
+    // _allSets = _setsService.allSets(ownerUserId: userId) as Iterable<CloudSet>;
+    // _filteredSets = _allSets.toList();
     super.initState();
   }
 
@@ -34,9 +39,30 @@ class _DataViewState extends State<DataView> {
     _scaffoldKey.currentState!.openDrawer();
   }
 
+  List<CloudSet> getFilteredSets(
+      Iterable<CloudSet> allSets, String exercise, String reps) {
+    List<CloudSet> filteredSets = allSets.toList();
+    if (reps == 'All') {
+      final List<CloudSet> setsByLift =
+          allSets.where((element) => element.lift == exercise).toList();
+
+      filteredSets = setsByLift;
+    } else {
+      final List<CloudSet> setsByLiftAndReps = allSets
+          .where((element) => element.lift == exercise)
+          .where((element) => element.reps == reps)
+          .toList();
+
+      filteredSets = setsByLiftAndReps;
+    }
+    filteredSets.sort((a, b) => a.date.compareTo(b.date));
+    return filteredSets;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExerciseProvider>(builder: (context, provider, child) {
+    return Consumer2<ExerciseProvider, RepsProvider>(
+        builder: (context, provider, repsProvider, child) {
       return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -50,12 +76,17 @@ class _DataViewState extends State<DataView> {
                 case ConnectionState.active:
                   if (snapshot.hasData) {
                     final allSets = snapshot.data as Iterable<CloudSet>;
-                    final List<CloudSet> setsByLift = allSets
-                        .where((element) => element.lift == provider.exercise)
-                        .toList();
-                    setsByLift.sort((a, b) => a.date.compareTo(b.date));
-                    final maxWeightOnDate = getMaxWeightOnDate(setsByLift);
+
+                    // final List<CloudSet> setsByLift = allSets
+                    //     .where((element) => element.lift == provider.exercise)
+                    //     .toList();
+                    // final filteredSets = _filteredSets;
+                    final filteredSets = getFilteredSets(
+                        allSets, provider.exercise, repsProvider.reps);
+                    // filteredSets.sort((a, b) => a.date.compareTo(b.date));
+                    final maxWeightOnDate = getMaxWeightOnDate(filteredSets);
                     final length = maxWeightOnDate.length;
+                    final validRepRangeList = getUniqueReps(filteredSets);
                     final double minX = maxWeightOnDate[0].x;
                     final double maxX = maxWeightOnDate[length - 1].x;
                     const double minY = 0;
@@ -86,7 +117,9 @@ class _DataViewState extends State<DataView> {
                                 IconButton(
                                     onPressed: () {
                                       Navigator.of(context).pushNamed(
-                                          repsSelectionViewDataRoute);
+                                        repsSelectionViewDataRoute,
+                                        arguments: validRepRangeList,
+                                      );
                                     },
                                     icon: const Icon(Icons.dynamic_feed)),
                               ],

@@ -1,31 +1,43 @@
 import 'package:any_percent_training_tracker/components/app_bar.dart';
 import 'package:any_percent_training_tracker/components/drawer.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
-import 'package:flutter/material.dart';
+import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
-import 'package:any_percent_training_tracker/services/cloud/cloud_stack.dart';
-import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
+import 'package:any_percent_training_tracker/views/log_view/edit_stack_list_view.dart';
+import 'package:any_percent_training_tracker/views/log_view/sessions_list_view.dart';
+import 'package:flutter/material.dart';
 
-class SessionsView extends StatefulWidget {
-  const SessionsView({Key? key}) : super(key: key);
+class EditStackView extends StatefulWidget {
+  const EditStackView({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<SessionsView> createState() => _SessionsViewState();
+  State<EditStackView> createState() => _EditStackViewState();
 }
 
-class _SessionsViewState extends State<SessionsView> {
-  late final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late final FirebaseCloudStorage _stacksService;
+class _EditStackViewState extends State<EditStackView> {
+  late GlobalKey<ScaffoldState> _scaffoldKey;
+  late final FirebaseCloudStorage _setsService;
+  late final CloudSet _set;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
+    _setsService = FirebaseCloudStorage();
+    _scaffoldKey = GlobalKey<ScaffoldState>();
+
     super.initState();
-    _stacksService = FirebaseCloudStorage();
   }
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as EditStackArgs;
+    final stackId = args.stack.documentId;
+    final lift = args.stack.lift;
+    final date = args.stack.date;
+
+
     const tileDensity = -2.5;
     const divHeight = 1.8;
     const tileFontSize = 14.0;
@@ -35,34 +47,34 @@ class _SessionsViewState extends State<SessionsView> {
     }
 
     return Scaffold(
-      key: _scaffoldKey, // Assign the key to the Scaffold widget
+      key: _scaffoldKey, 
       drawer: const CustomDrawer(
         tileFontSize: tileFontSize,
         divHeight: divHeight,
         tileDensity: tileDensity,
       ),
       appBar: CustomAppBar(
-        title: 'Training Log',
+        title: lift,
         scaffoldKey: _scaffoldKey,
         onMenuPressed: () {
           openDrawer();
         },
       ),
-      body: Builder(
-        builder: (context) => StreamBuilder(
-          stream: _stacksService.allStacks(ownerUserId: userId),
+      body: StreamBuilder(
+          stream: _setsService.allSetsByStack(
+              ownerUserId: userId, stackId: stackId),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
               case ConnectionState.active:
                 if (snapshot.hasData) {
-                  final allStacks = snapshot.data as Iterable<CloudStack>;
-                  return StacksListView(
-                    stacks: allStacks,
-                    onDeleteStack: (stack) async {
-                      await _stacksService.deleteStack(documentId: stack.documentId);
-                    },
-                    onTap: (stack) {},
+                  final allSetsByStack = snapshot.data as Iterable<CloudSet>;
+                  return EditStacksListView(
+                    sets: allSetsByStack,
+                    stackId: stackId,
+                    userId: userId,
+                    lift: lift,
+                    date: date,
                   );
                 } else {
                   return const CircularProgressIndicator();
@@ -70,10 +82,7 @@ class _SessionsViewState extends State<SessionsView> {
               default:
                 return const CircularProgressIndicator();
             }
-          },
-        ),
-      ),
+          }),
     );
   }
 }
-

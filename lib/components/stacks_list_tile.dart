@@ -1,10 +1,6 @@
-import 'package:any_percent_training_tracker/services/cloud/cloud_storage_exceptions.dart';
 import 'package:flutter/material.dart';
-import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
-import 'package:any_percent_training_tracker/utils/generics/get_arguments.dart';
 import 'package:any_percent_training_tracker/services/cloud/cloud_set.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
-import 'package:any_percent_training_tracker/models/exercise_model.dart';
 
 typedef SetCallback = void Function(
     CloudSet set, String stackId, int currentStackSets);
@@ -34,7 +30,6 @@ class _StackListTileState extends State<StackListTile> {
   late final TextEditingController _reps;
 
   void _saveSetIfFieldsNotEmpty() async {
-    print('SAVEIFTEXTFIELDSNOTEMPTY INVOKED!!!');
     final set = _set;
     final weight = _weight.text;
     final reps = _reps.text;
@@ -45,14 +40,8 @@ class _StackListTileState extends State<StackListTile> {
   }
 
   Future<CloudSet> getExistingSet(BuildContext context) async {
-    print('GET EXISTING SET INVOKED!!!!');
     final widgetSet = widget.set;
-    // print('POST GET ARGUMENT!!');
-    // print(widgetSet!.weight);
-    // print(ModalRoute.of(context));
-
     if (widgetSet != null) {
-      print('WIDGETSET NOT NULL');
       _set = widgetSet;
       _weight.text = widgetSet.weight;
       _reps.text = widgetSet.reps;
@@ -63,15 +52,14 @@ class _StackListTileState extends State<StackListTile> {
       return existingSet;
     }
     return CloudSet(
-      documentId: widgetSet.documentId,
-      ownerUserId: widgetSet.ownerUserId,
-      lift: widgetSet.lift,
-      reps: widgetSet.reps,
-      stackId: widgetSet.stackId,
-      weight: widgetSet.weight,
-      setOrder: widgetSet.setOrder,
-      date: widgetSet.date
-    );
+        documentId: widgetSet.documentId,
+        ownerUserId: widgetSet.ownerUserId,
+        lift: widgetSet.lift,
+        reps: widgetSet.reps,
+        stackId: widgetSet.stackId,
+        weight: widgetSet.weight,
+        setOrder: widgetSet.setOrder,
+        date: widgetSet.date);
   }
 
   @override
@@ -83,20 +71,12 @@ class _StackListTileState extends State<StackListTile> {
   }
 
   void _textControllerListener() async {
-    print('LISTENER INVOKED!!!');
     final set = _set;
     if (set == null) {
       return;
     }
     final weight = _weight.text;
-    print('_WEIGHT !!!!!');
-    print(weight);
     final reps = _reps.text;
-    print('_REPS !!!!!');
-    print(reps);
-
-    // await _setsService.updateSet(
-    //     setId: set.documentId, weight: weight, reps: reps);
   }
 
   void _setupTextControllerListener() {
@@ -133,7 +113,6 @@ class _StackListTileState extends State<StackListTile> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Column(
-                    
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -141,9 +120,10 @@ class _StackListTileState extends State<StackListTile> {
                         width: 335,
                         child: Row(
                           children: [
-                            const SizedBox(width: 15,),
+                            const SizedBox(
+                              width: 15,
+                            ),
                             Expanded(
-                            
                                 child: TextField(
                               textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 10, height: 2.0),
@@ -170,7 +150,6 @@ class _StackListTileState extends State<StackListTile> {
                               width: 10,
                             ),
                             Expanded(
-                              
                                 child: TextField(
                               textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 10, height: 2.0),
@@ -221,7 +200,6 @@ class _StackListTileState extends State<StackListTile> {
                 ],
               ),
             );
-
           default:
             return const CircularProgressIndicator();
         }

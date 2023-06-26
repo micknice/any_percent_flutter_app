@@ -1,21 +1,17 @@
-import 'package:any_percent_training_tracker/reps_provider_data.dart';
-import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
-import 'package:any_percent_training_tracker/exercise_provider_data.dart';
-import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
+import 'package:any_percent_training_tracker/providers/reps_provider_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-import 'package:any_percent_training_tracker/models/exercise_model.dart';
-import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 
 typedef RepsCallback = void Function();
 
 class RepsSelectionListData extends StatefulWidget {
-   RepsSelectionListData({
+  const RepsSelectionListData({
     super.key,
-    
+    required this.validRepRangeList,
   });
-  final List<String> reps = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+  final List<String> validRepRangeList;
   @override
   State<RepsSelectionListData> createState() => _ExerciseSearchListDataState();
 }
@@ -30,11 +26,11 @@ class _ExerciseSearchListDataState extends State<RepsSelectionListData> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SearchableList<String>(
-        initialList: widget.reps,
+        initialList: widget.validRepRangeList,
         builder: (String repCount) => RepItemData(
           repCount: repCount,
         ),
-        filter: (value) => widget.reps
+        filter: (value) => widget.validRepRangeList
             .where(
               (element) => element.contains(value),
             )
@@ -59,7 +55,6 @@ class _ExerciseSearchListDataState extends State<RepsSelectionListData> {
 
 class RepItemData extends StatelessWidget {
   final String repCount;
-
   const RepItemData({
     Key? key,
     required this.repCount,
@@ -73,9 +68,7 @@ class RepItemData extends StatelessWidget {
           builder: (context, provider, child) {
             return GestureDetector(
               onTap: () {
-                print('!!!!!!!');
                 provider.updateReps(repCount);
-                print(provider.reps);
                 Navigator.pop(context);
               },
               child: Container(
@@ -106,7 +99,6 @@ class RepItemData extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        
                       ],
                     ),
                   ],

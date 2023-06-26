@@ -1,4 +1,3 @@
-import 'package:any_percent_training_tracker/views/data/exercise_search_view_data.dart';
 
 const createOrUpdateNotesRoute = '/new_notes';
 const createOrUpdateJobsRoute = '/new_jobs';
