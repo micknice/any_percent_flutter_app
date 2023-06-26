@@ -10,3 +10,5 @@ class ExerciseProvider extends ChangeNotifier {
 
   String get exercise => _exercise;
 }
+
+

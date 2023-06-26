@@ -1,3 +1,4 @@
+import 'package:any_percent_training_tracker/reps_provider_data.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
 import 'package:any_percent_training_tracker/exercise_provider_data.dart';
 import 'package:any_percent_training_tracker/views/log/sessions_list_view.dart';
@@ -7,19 +8,19 @@ import 'package:searchable_listview/searchable_listview.dart';
 import 'package:any_percent_training_tracker/models/exercise_model.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 
-typedef ExerciseCallback = void Function();
+typedef RepsCallback = void Function();
 
-class ExerciseSearchListData extends StatefulWidget {
-  const ExerciseSearchListData({
+class RepsSelectionListData extends StatefulWidget {
+   RepsSelectionListData({
     super.key,
-    required this.exercises,
+    
   });
-  final List<Exercise> exercises;
+  final List<String> reps = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   @override
-  State<ExerciseSearchListData> createState() => _ExerciseSearchListDataState();
+  State<RepsSelectionListData> createState() => _ExerciseSearchListDataState();
 }
 
-class _ExerciseSearchListDataState extends State<ExerciseSearchListData> {
+class _ExerciseSearchListDataState extends State<RepsSelectionListData> {
   @override
   void initState() {
     super.initState();
@@ -28,19 +29,19 @@ class _ExerciseSearchListDataState extends State<ExerciseSearchListData> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SearchableList<Exercise>(
-        initialList: widget.exercises,
-        builder: (Exercise exercise) => ExerciseItemData(
-          exercise: exercise,
+      child: SearchableList<String>(
+        initialList: widget.reps,
+        builder: (String repCount) => RepItemData(
+          repCount: repCount,
         ),
-        filter: (value) => widget.exercises
+        filter: (value) => widget.reps
             .where(
-              (element) => element.name.toLowerCase().contains(value),
+              (element) => element.contains(value),
             )
             .toList(),
         emptyWidget: const EmptyView(),
         inputDecoration: InputDecoration(
-            labelText: "Search Exercise",
+            labelText: "Select Rep Range",
             fillColor: Colors.white,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(
@@ -56,25 +57,25 @@ class _ExerciseSearchListDataState extends State<ExerciseSearchListData> {
   }
 }
 
-class ExerciseItemData extends StatelessWidget {
-  final Exercise exercise;
+class RepItemData extends StatelessWidget {
+  final String repCount;
 
-  const ExerciseItemData({
+  const RepItemData({
     Key? key,
-    required this.exercise,
+    required this.repCount,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<ExerciseProvider>(
+        child: Consumer<RepsProvider>(
           builder: (context, provider, child) {
             return GestureDetector(
               onTap: () {
                 print('!!!!!!!');
-                provider.updateExercise(exercise.name);
-                print(provider.exercise);
+                provider.updateReps(repCount);
+                print(provider.reps);
                 Navigator.pop(context);
               },
               child: Container(
@@ -100,24 +101,12 @@ class ExerciseItemData extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          exercise.name,
+                          '$repCount Reps',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          exercise.bodyPart,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          exercise.movementType,
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
+                        
                       ],
                     ),
                   ],
@@ -141,7 +130,7 @@ class EmptyView extends StatelessWidget {
           Icons.error,
           color: Colors.red,
         ),
-        Text('no exercise is found with this name'),
+        Text('no repCount is found with this name'),
       ],
     );
   }

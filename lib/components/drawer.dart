@@ -96,7 +96,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           visualDensity:
               VisualDensity(horizontal: 0, vertical: widget.tileDensity),
           leading: const Icon(
-            Icons.home_filled,
+            Icons.fitness_center,
             color: Colors.black,
           ),
           title: Text(
@@ -120,7 +120,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           visualDensity:
               VisualDensity(horizontal: 0, vertical: widget.tileDensity),
           leading: const Icon(
-            Icons.shopping_bag_outlined,
+            Icons.emoji_events,
             color: Colors.black,
           ),
           title: Text(
@@ -144,7 +144,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           visualDensity:
               VisualDensity(horizontal: 0, vertical: widget.tileDensity),
           leading: const Icon(
-            Icons.favorite_border_outlined,
+            Icons.insights,
             color: Colors.black,
           ),
           title: Text(

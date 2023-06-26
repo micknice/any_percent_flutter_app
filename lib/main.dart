@@ -1,11 +1,13 @@
 import 'package:any_percent_training_tracker/constants/routes.dart';
-import 'package:any_percent_training_tracker/data_view_providers.dart';
+import 'package:any_percent_training_tracker/exercise_provider_data.dart';
 import 'package:any_percent_training_tracker/helpers/loading/loading_screen.dart';
+import 'package:any_percent_training_tracker/reps_provider_data.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_bloc.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_event.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_state.dart';
 import 'package:any_percent_training_tracker/services/auth/firebase_auth_provider.dart';
 import 'package:any_percent_training_tracker/views/data/data_view.dart';
+import 'package:any_percent_training_tracker/views/data/reps_selection_view_data%20copy.dart';
 import 'package:any_percent_training_tracker/views/forgot_password_view.dart';
 import 'package:any_percent_training_tracker/views/log/edit_set_view.dart';
 import 'package:any_percent_training_tracker/views/log/edit_stack_view.dart';
@@ -23,6 +25,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => RepsProvider()),
       ChangeNotifierProvider(create: (_) => ExerciseProvider()),
     ],
     child: MaterialApp(
@@ -41,6 +44,7 @@ void main() {
         dataViewRoute: (context) => const DataView(),
         exerciseSearchViewDataRoute: (context) =>
             const ExerciseSearchViewData(),
+        repsSelectionViewDataRoute: (context) => const RepsSelectionViewData(),
       },
     ),
   ));

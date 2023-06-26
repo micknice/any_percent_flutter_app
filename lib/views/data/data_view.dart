@@ -2,7 +2,7 @@ import 'package:any_percent_training_tracker/constants/routes.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
 import 'package:any_percent_training_tracker/services/cloud/firebase_cloud_storage_any_percent.dart';
 import 'package:any_percent_training_tracker/utils/data_helpers/util_funcs.dart';
-import 'package:any_percent_training_tracker/data_view_providers.dart';
+import 'package:any_percent_training_tracker/exercise_provider_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -22,6 +22,7 @@ class _DataViewState extends State<DataView> {
   late final CloudSet _set;
   String get userId => AuthService.firebase().currentUser!.id;
   final String _lift = 'Barbell Bench Press';
+  late final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -29,10 +30,18 @@ class _DataViewState extends State<DataView> {
     super.initState();
   }
 
+  void openDrawer() {
+    _scaffoldKey.currentState!.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ExerciseProvider>(builder: (context, provider, child) {
       return Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text(provider.exercise),
+        ),
         body: StreamBuilder(
             stream: _setsService.allSets(ownerUserId: userId),
             builder: (context, snapshot) {
@@ -51,20 +60,41 @@ class _DataViewState extends State<DataView> {
                     final double maxX = maxWeightOnDate[length - 1].x;
                     const double minY = 0;
                     const double maxY = 300;
-                    List<Color> gradientColors = [Colors.blueGrey, Colors.red];
+                    List<Color> gradientColors = [
+                      Colors.blueGrey,
+                      Colors.blueGrey
+                    ];
                     return Column(
                       children: [
                         Row(
                           children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed(exerciseSearchViewDataRoute);
-                                },
-                                icon: const Icon(Icons.fitness_center_sharp))
+                            Column(
+                              children: [
+                                const Text('LIFT'),
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                          exerciseSearchViewDataRoute);
+                                    },
+                                    icon:
+                                        const Icon(Icons.fitness_center_sharp)),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const Text('REPS'),
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                          repsSelectionViewDataRoute);
+                                    },
+                                    icon: const Icon(Icons.dynamic_feed)),
+                              ],
+                            ),
                           ],
                         ),
-                        Expanded(
+                        SizedBox(
+                          height: 300,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: LineChart(LineChartData(
@@ -82,12 +112,12 @@ class _DataViewState extends State<DataView> {
                                   ),
                                   bottomTitles: AxisTitles(
                                     sideTitles: SideTitles(
-                                        showTitles: true, interval: 1),
+                                        showTitles: false, interval: 1),
                                   ),
                                 ),
                                 borderData: FlBorderData(
                                   show: true,
-                                  border: Border.all(color: Colors.cyan),
+                                  border: Border.all(color: Colors.black),
                                 ),
                                 minX: minX,
                                 maxX: maxX,
