@@ -70,7 +70,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-   
+   apiKey: 'AIzaSyCrM2RDoh6rRZGNp8JeumCjwWGszlx4Gb4',
     messagingSenderId: '446589843155',
     projectId: 'any-percent-training--tracker',
     storageBucket: 'any-percent-training--tracker.appspot.com',
