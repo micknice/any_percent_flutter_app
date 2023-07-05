@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    
+    apiKey: 'AIzaSyCrM2RDoh6rRZGNp8JeumCjwWGszlx4Gb4',
     messagingSenderId: '446589843155',
     projectId: 'any-percent-training--tracker',
     authDomain: 'any-percent-training--tracker.firebaseapp.com',
@@ -53,28 +53,29 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    
-    
+    apiKey: 'AIzaSyDwxF2AtuyzXJixYWXGFl7qYanFV_3rGio',
     messagingSenderId: '446589843155',
     projectId: 'any-percent-training--tracker',
     storageBucket: 'any-percent-training--tracker.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-   
+    apiKey: 'AIzaSyDIuufcvkFZGjx5liIojxDrwG8cCAOz4W0',
     messagingSenderId: '446589843155',
     projectId: 'any-percent-training--tracker',
     storageBucket: 'any-percent-training--tracker.appspot.com',
-    iosClientId: '446589843155-18hhgqi4m3dpoff522sdjl0h5hoddqm1.apps.googleusercontent.com',
+    iosClientId:
+        '446589843155-18hhgqi4m3dpoff522sdjl0h5hoddqm1.apps.googleusercontent.com',
     iosBundleId: 'com.example.anyPercentTrainingTracker',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-   apiKey: 'AIzaSyCrM2RDoh6rRZGNp8JeumCjwWGszlx4Gb4',
+    apiKey: 'AIzaSyCrM2RDoh6rRZGNp8JeumCjwWGszlx4Gb4',
     messagingSenderId: '446589843155',
     projectId: 'any-percent-training--tracker',
     storageBucket: 'any-percent-training--tracker.appspot.com',
-    iosClientId: '446589843155-h84vklp3uouq0eaps3bvinurvdop9sm6.apps.googleusercontent.com',
+    iosClientId:
+        '446589843155-h84vklp3uouq0eaps3bvinurvdop9sm6.apps.googleusercontent.com',
     iosBundleId: 'com.example.anyPercentTrainingTracker.RunnerTests',
   );
 }
