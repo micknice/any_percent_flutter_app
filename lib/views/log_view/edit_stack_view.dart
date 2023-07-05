@@ -19,7 +19,6 @@ class EditStackView extends StatefulWidget {
 class _EditStackViewState extends State<EditStackView> {
   late GlobalKey<ScaffoldState> _scaffoldKey;
   late final FirebaseCloudStorage _setsService;
-  late final CloudSet _set;
   String get userId => AuthService.firebase().currentUser!.id;
 
   @override
@@ -36,8 +35,6 @@ class _EditStackViewState extends State<EditStackView> {
     final stackId = args.stack.documentId;
     final lift = args.stack.lift;
     final date = args.stack.date;
-
-
     const tileDensity = -2.5;
     const divHeight = 1.8;
     const tileFontSize = 14.0;

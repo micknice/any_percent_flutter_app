@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:any_percent_training_tracker/services/auth/auth_exceptions.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_provider.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_event.dart';
 import 'package:any_percent_training_tracker/services/auth/bloc/auth_state.dart';

@@ -26,29 +26,37 @@ class _ExerciseSearchListState extends State<ExerciseSearchList> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SearchableList<Exercise>(
-        initialList: widget.exercises,
-        builder: (Exercise exercise) =>
-            ExerciseItem(exercise: exercise, stacksService: _stacksService),
-        filter: (value) => widget.exercises
-            .where(
-              (element) => element.name.toLowerCase().contains(value),
-            )
-            .toList(),
-        emptyWidget: const EmptyView(),
-        inputDecoration: InputDecoration(
-            labelText: "Search Exercise",
-            fillColor: Colors.white,
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.blue,
-                width: 1.0,
+    return Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.fill,
+              image: AssetImage('assets/carbon_fibre_texture.jpg'))),
+      child: SafeArea(
+        child: SearchableList<Exercise>(
+          style: const TextStyle(color: Colors.white),
+          initialList: widget.exercises,
+          builder: (Exercise exercise) =>
+              ExerciseItem(exercise: exercise, stacksService: _stacksService),
+          filter: (value) => widget.exercises
+              .where(
+                (element) => element.name.toLowerCase().contains(value),
+              )
+              .toList(),
+          emptyWidget: const EmptyView(),
+          inputDecoration: InputDecoration(
+            labelStyle: const TextStyle(color: Colors.white),
+              labelText: "Search Exercise",
+              fillColor: Colors.white,
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.teal,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(5.0),
               ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 16)),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 16)),
+        ),
       ),
     );
   }
@@ -73,7 +81,7 @@ class ExerciseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as NewStackArgs;
     return Padding(
-      padding: const EdgeInsets.only(bottom:8.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: GestureDetector(
         onTap: () {
           createStackWithSelectedExercise(exercise.name, args.date);
@@ -81,8 +89,8 @@ class ExerciseItem extends StatelessWidget {
         },
         child: Container(
           height: 60,
-          decoration:  const BoxDecoration(
-            color:  Color.fromRGBO(238, 238, 238, 1),
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(238, 238, 238, 0.243),
             borderRadius: BorderRadius.zero,
           ),
           child: Row(
@@ -105,19 +113,20 @@ class ExerciseItem extends StatelessWidget {
                     exercise.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     exercise.bodyPart,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     exercise.movementType,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -142,7 +151,7 @@ class EmptyView extends StatelessWidget {
           Icons.error,
           color: Colors.red,
         ),
-        Text('no exercise is found with this name'),
+        Text('no exercise is found with this name', style: TextStyle(color: Colors.white),),
       ],
     );
   }

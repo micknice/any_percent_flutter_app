@@ -1,10 +1,6 @@
-import 'package:any_percent_training_tracker/components/exercise_search_list.dart';
 import 'package:any_percent_training_tracker/components/drawer.dart';
-import 'package:any_percent_training_tracker/components/exercise_search_list_data.dart';
 import 'package:any_percent_training_tracker/components/rep_selection_list.dart';
-import 'package:any_percent_training_tracker/constants/exercises.dart';
 import 'package:any_percent_training_tracker/services/auth/auth_service.dart';
-import 'package:any_percent_training_tracker/views/log_view/sessions_list_view.dart';
 import 'package:flutter/material.dart';
 
 class RepsSelectionViewData extends StatefulWidget {

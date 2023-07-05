@@ -236,79 +236,79 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 7,
           child: Material(color: Colors.grey.shade200),
         ),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: ListTile(
-            visualDensity:
-                VisualDensity(horizontal: 0, vertical: widget.tileDensity),
-            title: Text(
-              'MORE SWEG',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: widget.tileFontSize,
-                  color: Colors.grey),
-            ),
-            onTap: () {},
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 250,
-              height: widget.divHeight,
-              child: Material(color: Colors.grey.shade200),
-            ),
-          ],
-        ),
-        ListTile(
-          visualDensity:
-              VisualDensity(horizontal: 0, vertical: widget.tileDensity),
-          title: Text(
-            'Unlimited Next Day Delivery',
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: widget.tileFontSize,
-                color: Colors.black87),
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          visualDensity:
-              VisualDensity(horizontal: 0, vertical: widget.tileDensity),
-          title: Text(
-            'Our environmental & ethics policy',
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: widget.tileFontSize,
-                color: Colors.black87),
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          visualDensity:
-              VisualDensity(horizontal: 0, vertical: widget.tileDensity),
-          title: Text(
-            'Gift Vouchers',
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: widget.tileFontSize,
-                color: Colors.black87),
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          visualDensity:
-              VisualDensity(horizontal: 0, vertical: widget.tileDensity),
-          title: Text(
-            'About us',
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: widget.tileFontSize,
-                color: Colors.black87),
-          ),
-          onTap: () {},
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(4.0),
+        //   child: ListTile(
+        //     visualDensity:
+        //         VisualDensity(horizontal: 0, vertical: widget.tileDensity),
+        //     title: Text(
+        //       'MORE SWEG',
+        //       style: TextStyle(
+        //           fontWeight: FontWeight.bold,
+        //           fontSize: widget.tileFontSize,
+        //           color: Colors.grey),
+        //     ),
+        //     onTap: () {},
+        //   ),
+        // ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     SizedBox(
+        //       width: 250,
+        //       height: widget.divHeight,
+        //       child: Material(color: Colors.grey.shade200),
+        //     ),
+        //   ],
+        // ),
+        // ListTile(
+        //   visualDensity:
+        //       VisualDensity(horizontal: 0, vertical: widget.tileDensity),
+        //   title: Text(
+        //     'Unlimited Next Day Delivery',
+        //     style: TextStyle(
+        //         fontWeight: FontWeight.w400,
+        //         fontSize: widget.tileFontSize,
+        //         color: Colors.black87),
+        //   ),
+        //   onTap: () {},
+        // ),
+        // ListTile(
+        //   visualDensity:
+        //       VisualDensity(horizontal: 0, vertical: widget.tileDensity),
+        //   title: Text(
+        //     'Our environmental & ethics policy',
+        //     style: TextStyle(
+        //         fontWeight: FontWeight.w400,
+        //         fontSize: widget.tileFontSize,
+        //         color: Colors.black87),
+        //   ),
+        //   onTap: () {},
+        // ),
+        // ListTile(
+        //   visualDensity:
+        //       VisualDensity(horizontal: 0, vertical: widget.tileDensity),
+        //   title: Text(
+        //     'Gift Vouchers',
+        //     style: TextStyle(
+        //         fontWeight: FontWeight.w400,
+        //         fontSize: widget.tileFontSize,
+        //         color: Colors.black87),
+        //   ),
+        //   onTap: () {},
+        // ),
+        // ListTile(
+        //   visualDensity:
+        //       VisualDensity(horizontal: 0, vertical: widget.tileDensity),
+        //   title: Text(
+        //     'About us',
+        //     style: TextStyle(
+        //         fontWeight: FontWeight.w400,
+        //         fontSize: widget.tileFontSize,
+        //         color: Colors.black87),
+        //   ),
+        //   onTap: () {},
+        // ),
       ],
     ));
   }
