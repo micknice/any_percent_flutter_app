@@ -15,15 +15,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
-      backgroundColor: Colors.transparent,
+      title: Text(title, style: TextStyle(color: Colors.white),),
+      backgroundColor: Colors.black,
       bottomOpacity: 0.0,
       elevation: 0.0,
       shadowColor: Colors.transparent,
       leading: IconButton(
         icon: const Icon(
           Icons.menu,
-          color: Colors.black87,
+          color: Colors.white,
         ),
         onPressed: () {
           print('APP BAR!!!!!');
@@ -31,18 +31,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onMenuPressed();
         },
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.favorite_border_outlined),
-          color: Colors.black87,
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.search),
-          color: Colors.black87,
-        ),
-      ],
+      // actions: [
+      //   IconButton(
+      //     onPressed: () {},
+      //     icon: const Icon(Icons.favorite_border_outlined),
+      //     color: Colors.white,
+      //   ),
+      //   IconButton(
+      //     onPressed: () {},
+      //     icon: const Icon(Icons.search),
+      //     color: Colors.white,
+      //   ),
+      // ],
     );
   }
 

@@ -75,7 +75,7 @@ class _DataViewState extends State<DataView> {
           ),
           backgroundColor: Colors.black,
           title: Text(
-            '${provider.exercise} ${repsProvider.reps} reps',
+            provider.exercise,
             style: const TextStyle(
               color: Colors.white,
             ),
@@ -99,8 +99,8 @@ class _DataViewState extends State<DataView> {
                     const double minY = 0;
                     const double maxY = 300;
                     List<Color> gradientColors = [
-                      const Color.fromARGB(116, 0, 255, 128),
-                      const Color.fromARGB(64, 96, 125, 139),
+                     const Color.fromARGB(116, 0, 255, 128),
+                     const Color.fromARGB(64, 96, 125, 139),
                     ];
                     return Container(
                       decoration: const BoxDecoration(
@@ -189,8 +189,8 @@ class _DataViewState extends State<DataView> {
                                             SideTitles(showTitles: false),
                                       ),
                                       bottomTitles: AxisTitles(
-                                        sideTitles:
-                                            SideTitles(showTitles: false),
+                                        sideTitles: SideTitles(
+                                            showTitles: false, interval: 10),
                                       ),
                                     ),
                                     borderData: FlBorderData(
@@ -203,8 +203,8 @@ class _DataViewState extends State<DataView> {
                                     maxY: maxY,
                                     lineBarsData: [
                                       LineChartBarData(
-                                          color: const Color.fromARGB(
-                                              156, 12, 255, 20),
+                                          color:
+                                              const Color.fromARGB(156, 12, 255, 20),
                                           spots: [...maxWeightOnDate],
                                           isCurved: false,
                                           belowBarData: BarAreaData(

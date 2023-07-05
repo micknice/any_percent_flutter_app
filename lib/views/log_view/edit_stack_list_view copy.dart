@@ -12,21 +12,20 @@ class EditStacksListView extends StatefulWidget {
   final String lift;
   final String date;
 
-  const EditStacksListView({
-    Key? key,
-    required this.sets,
-    required this.stackId,
-    required this.userId,
-    required this.lift,
-    required this.date,
-  }) : super(key: key);
+  const EditStacksListView(
+      {super.key,
+      required this.sets,
+      required this.stackId,
+      required this.userId,
+      required this.lift,
+      required this.date});
 
   @override
   State<EditStacksListView> createState() => _EditStacksListViewState();
 }
 
 class _EditStacksListViewState extends State<EditStacksListView> {
-  int _stackSets = 0;
+  late int _stackSets;
   late final FirebaseCloudStorage _setsService;
 
   @override
@@ -48,12 +47,11 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     String date,
   ) async {
     final newSet = await _setsService.createNewSet(
-      ownerUserId: userId,
-      stackId: stackId,
-      setOrder: setOrder,
-      lift: lift,
-      date: date,
-    );
+        ownerUserId: userId,
+        stackId: stackId,
+        setOrder: setOrder,
+        lift: lift,
+        date: date);
     return newSet;
   }
 
@@ -64,11 +62,7 @@ class _EditStacksListViewState extends State<EditStacksListView> {
     String date,
   ) async {
     final newSet = await _setsService.createFirstSet(
-      ownerUserId: userId,
-      stackId: stackId,
-      lift: lift,
-      date: date,
-    );
+        ownerUserId: userId, stackId: stackId, lift: lift, date: date);
     return newSet;
   }
 
@@ -78,12 +72,10 @@ class _EditStacksListViewState extends State<EditStacksListView> {
 
   void updateSetOrderOnDeleteSet(String stackId, String deletedOrder) async {
     await _setsService.updateSetOrder(
-      stackId: stackId,
-      deletedOrder: deletedOrder,
-    );
+        stackId: stackId, deletedOrder: deletedOrder);
   }
 
-  void onDeleteSet(CloudSet set, String stackId, int stackSets) async {
+  void onDeleteSet(CloudSet set, String stackId, int stacksets) async {
     final deletedSetId = set.documentId;
     final deletedSetStackId = set.stackId;
     final deletedSetOrder = set.setOrder;
@@ -97,6 +89,7 @@ class _EditStacksListViewState extends State<EditStacksListView> {
 
   @override
   Widget build(BuildContext context) {
+    int itemCount = 0;
     final setsList = widget.sets;
     List<CloudSet> sets = List.from(setsList);
     sets.sort((a, b) => int.parse(a.setOrder).compareTo(int.parse(b.setOrder)));
@@ -111,66 +104,57 @@ class _EditStacksListViewState extends State<EditStacksListView> {
         _stackSets += 1;
       });
       updateStack(widget.stackId, _stackSets.toString());
-    }
+    } else {}
 
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: AssetImage('assets/carbon_fibre_texture.jpg'),
-        ),
-      ),
+          image: DecorationImage(
+            fit: BoxFit.fill,
+              image: AssetImage('assets/carbon_fibre_texture.jpg'))),
       child: Center(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: _stackSets,
-                    itemBuilder: (context, index) {
-                      if (sets.isNotEmpty && index < sets.length) {
-                        final set = sets.elementAt(index);
-                        return Dismissible(
-                          key: Key(set.setOrder),
-                          onDismissed: (direction) {
-                            final deletedSetId = set.documentId;
-                            final deletedSetStackId = set.stackId;
-                            final deletedSetOrder = set.setOrder;
-                            deleteSet(deletedSetId);
-                            setState(() {
-                              _stackSets -= 1;
-                            });
-                            updateSetOrderOnDeleteSet(
-                              deletedSetStackId,
-                              deletedSetOrder,
-                            );
-                            updateStack(widget.stackId, _stackSets.toString());
-                          },
-                          child: Card(
-                            shape: const ContinuousRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            color: const Color.fromARGB(59, 93, 93, 93),
-                            child: StackListTile(
-                              setsService: _setsService,
-                              set: set,
-                              currentStackSets: _stackSets,
-                              onDeleteSet: onDeleteSet,
-                            ),
-                          ),
-                        );
-                      }
-                      return const SizedBox(); // Return an empty SizedBox if no items to show
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
+        child: Stack(children: [
+          Column(mainAxisSize: MainAxisSize.max, children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: widget.sets.length,
+                itemBuilder: (context, index) {
+                  if (sets.isNotEmpty && index < sets.length) {
+                    final set = sets.elementAt(index);
+                    return Dismissible(
+                      key: Key(set.setOrder),
+                      onDismissed: (direction) {
+                        final deletedSetId = set.documentId;
+                        final deletedSetStackId = set.stackId;
+                        final deletedSetOrder = set.setOrder;
+                        deleteSet(deletedSetId);
+                        setState(() {
+                          _stackSets -= 1;
+                        });
+                        updateSetOrderOnDeleteSet(
+                            deletedSetStackId, deletedSetOrder);
+                        updateStack(widget.stackId, _stackSets.toString());
+                      },
+                      child: Card(shape: const ContinuousRectangleBorder(borderRadius: BorderRadius.zero),
+                        
+                        color: const Color.fromARGB(59, 93, 93, 93),
+                          child: StackListTile(
+                        setsService: _setsService,
+                        set: set,
+                        currentStackSets: _stackSets,
+                        onDeleteSet: onDeleteSet,
+                      )),
+                    );
+                  }
+                  // else {
+                  //   return const CircularProgressIndicator();
+                  // }
+                },
+              ),
+            )
+          ]),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton.small(
                   onPressed: () {
@@ -187,11 +171,9 @@ class _EditStacksListViewState extends State<EditStacksListView> {
                     updateStack(widget.stackId, _stackSets.toString());
                   },
                   child: const Icon(Icons.add),
-                ),
-              ),
-            ),
-          ],
-        ),
+                )),
+          )
+        ]),
       ),
     );
   }

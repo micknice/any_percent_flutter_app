@@ -32,10 +32,13 @@ class _StackListTileState extends State<StackListTile> {
   void _saveSetIfFieldsNotEmpty() async {
     final set = _set;
     final weight = _weight.text;
+    print(weight);
     final reps = _reps.text;
     if (set != null) {
-      await _setsService.updateSet(
-          setId: set.documentId, weight: weight, reps: reps);
+      if (weight != '' && reps != '') {
+        await _setsService.updateSet(
+            setId: set.documentId, weight: weight, reps: reps);
+      }
     }
   }
 
@@ -106,7 +109,8 @@ class _StackListTileState extends State<StackListTile> {
             return Container(
               height: 77,
               decoration: const BoxDecoration(
-                color:   Color.fromRGBO(238, 238, 238, 1),
+                borderRadius: BorderRadius.zero,
+                color: Color.fromRGBO(95, 95, 95, 0.212),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -125,7 +129,13 @@ class _StackListTileState extends State<StackListTile> {
                             Expanded(
                                 child: TextField(
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 10, height: 2.0),
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  height: 2.0,
+                                  color: Colors.white),
+                              onTapOutside: (event) {
+                                _saveSetIfFieldsNotEmpty();
+                              },
                               onTap: () {
                                 _saveSetIfFieldsNotEmpty();
                               },
@@ -136,12 +146,14 @@ class _StackListTileState extends State<StackListTile> {
                               decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   filled: true,
-                                  fillColor: Colors.white,
+                                  fillColor: Colors.black,
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
+                                  hintStyle: TextStyle(color: Colors.white),
                                   hintText: 'WEIGHT',
                                   suffixText: 'Kg',
                                   labelStyle: TextStyle(
+                                      color: Colors.white,
                                       fontSize: fontSize,
                                       fontWeight: FontWeight.bold)),
                             )),
@@ -151,7 +163,13 @@ class _StackListTileState extends State<StackListTile> {
                             Expanded(
                                 child: TextField(
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 10, height: 2.0),
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  height: 2.0,
+                                  color: Colors.white),
+                              onTapOutside: (event) {
+                                _saveSetIfFieldsNotEmpty();
+                              },
                               onTap: () {
                                 _saveSetIfFieldsNotEmpty();
                               },
@@ -162,11 +180,13 @@ class _StackListTileState extends State<StackListTile> {
                               decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   filled: true,
-                                  fillColor: Colors.white,
+                                  fillColor: Colors.black,
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
                                   hintText: 'REPS',
+                                  hintStyle: TextStyle(color: Colors.white),
                                   labelStyle: TextStyle(
+                                      color: Colors.white,
                                       fontSize: fontSize,
                                       fontWeight: FontWeight.bold)),
                             )),
@@ -176,6 +196,7 @@ class _StackListTileState extends State<StackListTile> {
                                 Text(
                                   'Set ${widget.set.setOrder}',
                                   style: const TextStyle(
+                                    color: Colors.white,
                                     fontSize: fontSize,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -188,7 +209,10 @@ class _StackListTileState extends State<StackListTile> {
                                           widget.set.stackId,
                                           widget.currentStackSets);
                                     },
-                                    icon: const Icon(Icons.delete)),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    )),
                               ],
                             )
                           ],
@@ -200,7 +224,7 @@ class _StackListTileState extends State<StackListTile> {
               ),
             );
           default:
-            return const CircularProgressIndicator();
+            return const SizedBox();
         }
       },
     );
