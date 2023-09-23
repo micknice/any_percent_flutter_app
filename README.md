@@ -1,3 +1,4 @@
 # any_percent_training_tracker
 
-workout tracker app
+Workout tracking app made with Flutter and Firebase.
+
